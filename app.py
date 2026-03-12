@@ -1,10 +1,32 @@
 import os
+import json
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
 ACTIVITY = {1:1.2, 2:1.375, 3:1.465, 4:1.55, 5:1.725, 6:1.9}
-feedbacks = []
+
+# Feedback file path - saves permanently
+FEEDBACK_FILE = '/tmp/feedbacks.json'
+
+def load_feedbacks():
+    try:
+        if os.path.exists(FEEDBACK_FILE):
+            with open(FEEDBACK_FILE, 'r') as f:
+                return json.load(f)
+    except:
+        pass
+    return []
+
+def save_feedback(fb):
+    feedbacks = load_feedbacks()
+    feedbacks.append(fb)
+    try:
+        with open(FEEDBACK_FILE, 'w') as f:
+            json.dump(feedbacks, f)
+    except:
+        pass
+    return feedbacks
 
 def calc(weight_kg, cm, age, gender, activity, goal):
     bmr = (10*weight_kg + 6.25*cm - 5*age + (5 if gender=="male" else -161))
@@ -30,9 +52,7 @@ def index():
         try:
             wu = int(request.form["weight_unit"])
             w  = float(request.form["weight"])
-            # Convert to kg only for calculation — don't modify user input
             w_kg = w * 0.453592 if wu == 2 else w
-
             hu = int(request.form["height_unit"])
             if hu == 1:
                 feet = float(request.form.get("feet") or 0)
@@ -40,19 +60,17 @@ def index():
                 cm = feet * 30.48 + inch * 2.54
             else:
                 cm = float(request.form["cm_h"])
-
             age      = int(request.form["age"])
             activity = int(request.form["activity"])
             gender   = request.form["gender"].strip().lower()
             goal     = int(request.form["goal"])
-
             if w_kg <= 0 or cm <= 0 or age <= 0:
                 error = "Please enter valid positive numbers."
             elif gender not in ("male","female"):
                 error = "Please select a valid gender."
             else:
                 result = calc(w_kg, cm, age, gender, activity, goal)
-        except Exception as e:
+        except:
             error = "Please fill in all fields correctly."
     return render_template("index.html", result=result, error=error)
 
@@ -62,12 +80,13 @@ def feedback():
     if request.method == "POST":
         msg = request.form.get("message","").strip()
         if msg:
-            feedbacks.append({
+            save_feedback({
                 "name":   request.form.get("name","Anonymous").strip() or "Anonymous",
                 "rating": request.form.get("rating","5"),
                 "msg":    msg
             })
             sent = True
+    feedbacks = load_feedbacks()
     return render_template("feedback.html", sent=sent, feedbacks=feedbacks)
 
 if __name__ == "__main__":
