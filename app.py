@@ -1,12 +1,9 @@
 import os
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
-
 ACTIVITY = {1:1.2, 2:1.375, 3:1.465, 4:1.55, 5:1.725, 6:1.9}
-
-# Feedback file path - saves permanently
 FEEDBACK_FILE = '/tmp/feedbacks.json'
 
 def load_feedbacks():
@@ -20,13 +17,12 @@ def load_feedbacks():
 
 def save_feedback(fb):
     feedbacks = load_feedbacks()
-    feedbacks.append(fb)
+    feedbacks.insert(0, fb)  # newest first
     try:
         with open(FEEDBACK_FILE, 'w') as f:
             json.dump(feedbacks, f)
     except:
         pass
-    return feedbacks
 
 def calc(weight_kg, cm, age, gender, activity, goal):
     bmr = (10*weight_kg + 6.25*cm - 5*age + (5 if gender=="male" else -161))
@@ -76,7 +72,6 @@ def index():
 
 @app.route("/feedback", methods=["GET","POST"])
 def feedback():
-    sent = False
     if request.method == "POST":
         msg = request.form.get("message","").strip()
         if msg:
@@ -85,9 +80,15 @@ def feedback():
                 "rating": request.form.get("rating","5"),
                 "msg":    msg
             })
-            sent = True
+        # PRG — redirect after POST, reload nahi dobaray submit hoga
+        return redirect(url_for('feedback_thanks'))
     feedbacks = load_feedbacks()
-    return render_template("feedback.html", sent=sent, feedbacks=feedbacks)
+    return render_template("feedback.html", sent=False, feedbacks=feedbacks)
+
+@app.route("/feedback/thanks")
+def feedback_thanks():
+    feedbacks = load_feedbacks()
+    return render_template("feedback.html", sent=True, feedbacks=feedbacks)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT",5000)), debug=True)
