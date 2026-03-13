@@ -90,5 +90,27 @@ def feedback_thanks():
     feedbacks = load_feedbacks()
     return render_template("feedback.html", sent=True, feedbacks=feedbacks)
 
+
+@app.route("/sitemap.xml")
+def sitemap():
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://myfitcalorie.vercel.app/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>"""
+    from flask import Response
+    return Response(xml, mimetype='application/xml')
+
+@app.route("/robots.txt")
+def robots():
+    txt = """User-agent: *
+Allow: /
+Sitemap: https://myfitcalorie.vercel.app/sitemap.xml"""
+    from flask import Response
+    return Response(txt, mimetype='text/plain')
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT",5000)), debug=True)
