@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://myfitcalorie.vercel.app/sitemap.xml
