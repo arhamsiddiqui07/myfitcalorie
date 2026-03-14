@@ -23,7 +23,9 @@
   <meta name="twitter:title" content="My Fit Calorie - Free Calorie Calculator"/>
   <meta name="twitter:description" content="Find your perfect daily calories and macros. Free calorie calculator for weight loss and muscle gain."/>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#05060e"/>
 <title>My Fit Calorie - Free Calorie & Macro Calculator</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet"/>
 
@@ -70,8 +72,8 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
 .hdr p{font-size:15px;color:var(--tx2);line-height:1.65;max-width:390px;margin:0 auto}
 
 /* NAV */
-.nav{display:flex;gap:8px;margin-bottom:14px;animation:up .6s cubic-bezier(.16,1,.3,1) .07s both}
-.nav a{padding:10px 20px;border-radius:12px;font-size:13px;font-weight:600;color:var(--tx2);text-decoration:none;border:1px solid transparent;transition:all .2s}
+.nav{display:flex;gap:6px;margin-bottom:14px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;animation:up .6s cubic-bezier(.16,1,.3,1) .07s both}.nav::-webkit-scrollbar{display:none}
+.nav a{padding:10px 16px;border-radius:12px;font-size:13px;font-weight:600;color:var(--tx2);text-decoration:none;border:1px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .nav a:hover{color:var(--tx);border-color:var(--b1)}
 .nav a.on{background:var(--c2);border-color:var(--b2);color:var(--or)}
 
@@ -292,8 +294,7 @@ textarea.fb-inp{resize:vertical;min-height:100px;line-height:1.6}
 @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
 /* MOBILE */
-@media(max-width:600px){
-  .page{padding:38px 14px 72px}
+
   .card{padding:22px}
   .g2{grid-template-columns:1fr}
   .og2{grid-template-columns:1fr 1fr}
@@ -332,6 +333,70 @@ textarea.fb-inp{resize:vertical;min-height:100px;line-height:1.6}
 .logo-link:hover{opacity:.85}
 
 input[type=number]::placeholder{color:var(--tx3);font-size:18px;font-weight:500}
+
+/* ══ MOBILE RESPONSIVE ══ */
+@media(max-width:768px){
+  .page{padding:32px 14px 80px}
+  /* Logo smaller on phone */
+  .logo-link h1{font-size:clamp(40px,13vw,64px) !important;letter-spacing:-2px !important}
+  /* Nav scrollable */
+  .nav{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;padding-bottom:4px;scrollbar-width:none}
+  .nav::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;padding:9px 14px;font-size:12px;flex-shrink:0}
+}
+@media(max-width:480px){
+  .page{padding:24px 12px 72px}
+  .logo-link h1{font-size:clamp(36px,14vw,56px) !important;letter-spacing:-2px !important}
+  /* Cards full width */
+  .card{padding:18px}
+  .fcard{padding:18px}
+  /* Grid single column */
+  .g2,.og2,.og3,.og6{grid-template-columns:1fr 1fr}
+  /* Hero numbers smaller */
+  .h-num{font-size:clamp(48px,16vw,72px) !important}
+  .main-num{font-size:clamp(52px,16vw,80px) !important}
+  /* Macros stack */
+  .macs{grid-template-columns:1fr}
+  .mc{border-right:none !important;border-bottom:1px solid var(--b1)}
+  .mc:last-child{border-bottom:none}
+  /* Result rows */
+  .gr{flex-wrap:wrap;gap:8px}
+  .gr-right{width:100%;text-align:left;padding-left:56px}
+  /* Steps stack */
+  .rs-body{grid-template-columns:1fr}
+  .rs-col{border-right:none;border-bottom:1px solid var(--b1)}
+  .rs-col:last-child{border-bottom:none}
+  /* Home grid */
+  .grid{grid-template-columns:1fr !important;max-width:100% !important}
+  /* Meal plan stats */
+  .stats-bar{grid-template-columns:1fr}
+  .stat{border-right:none;border-bottom:1px solid var(--b1)}
+  .stat:last-child{border-bottom:none}
+  /* Meal header */
+  .meal-hd{flex-wrap:wrap;gap:8px}
+  /* Food item */
+  .food-item{flex-wrap:wrap}
+  /* Body type traits */
+  .traits{grid-template-columns:1fr}
+  .tr{border-right:none !important;border-bottom:1px solid var(--b1)}
+  .tr:last-child{border-bottom:none}
+  /* Pills wrap */
+  .pills{flex-wrap:wrap}
+  /* Input font size */
+  input[type=number]{font-size:18px;padding:12px 40px 12px 14px}
+  /* Buttons */
+  .sbtn{font-size:15px;padding:16px}
+  .fbtn{font-size:15px;padding:16px}
+  /* Smart tip */
+  .smart-tip{flex-direction:column;gap:10px}
+  .tip{flex-direction:column;gap:10px}
+  /* Nutrition article grid */
+  .ag{grid-template-columns:1fr}
+  /* Food table scroll */
+  .ftw{overflow-x:auto}
+  table{min-width:340px}
+}
+
 </style>
 </head>
 <body>
