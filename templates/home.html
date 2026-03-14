@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="google-site-verification" content="9Z_RPn-qAWlU2kl004f-En8nKuIIvCqvbBJPMu6p-9Q"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Fit Calorie - Free Fitness Tools</title>
+<meta name="description" content="My Fit Calorie - Free fitness tools. Calorie calculator, body type calculator, and more."/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05060e;--c2:#0c0f1d;--c3:#111526;
+  --b1:#1a2038;--b2:#242d4a;
+  --or:#ff5c1a;--org:rgba(255,92,26,.14);--orgg:rgba(255,92,26,.28);
+  --bl:#4d8fff;--blg:rgba(77,143,255,.14);
+  --gr:#00d68f;--grg:rgba(0,214,143,.14);
+  --ye:#ffbe0b;--yeg:rgba(255,190,11,.14);
+  --pu:#a855f7;--pug:rgba(168,85,247,.14);
+  --tx:#f0f2ff;--tx2:#7a86a0;--tx3:#38445a;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+
+.bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.o1{width:700px;height:700px;background:radial-gradient(circle,rgba(255,92,26,.09),transparent 70%);top:-250px;right:-180px;animation:fl1 16s ease-in-out infinite}
+.o2{width:550px;height:550px;background:radial-gradient(circle,rgba(77,143,255,.07),transparent 70%);bottom:-180px;left:-180px;animation:fl2 21s ease-in-out infinite}
+.o3{width:350px;height:350px;background:radial-gradient(circle,rgba(0,214,143,.05),transparent 70%);top:42%;left:32%;animation:fl3 27s ease-in-out infinite}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.011) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.011) 1px,transparent 1px);background-size:56px 56px}
+@keyframes fl1{0%,100%{transform:translate(0,0)}50%{transform:translate(-44px,32px) scale(1.09)}}
+@keyframes fl2{0%,100%{transform:translate(0,0)}50%{transform:translate(36px,-44px) scale(1.07)}}
+@keyframes fl3{0%,100%{transform:translate(0,0)}50%{transform:translate(-28px,32px)}}
+
+.page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:56px 18px 100px}
+
+/* HEADER */
+.hdr{text-align:center;margin-bottom:60px;animation:up .8s cubic-bezier(.16,1,.3,1) both}
+.hdr-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 16px;border-radius:999px;border:1px solid var(--b2);background:var(--c2);font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--tx2);margin-bottom:20px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--or);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.logo-link{text-decoration:none;display:inline-block;transition:opacity .2s}
+.logo-link:hover{opacity:.85}
+.logo-link h1{font-family:'Outfit',sans-serif;font-size:clamp(50px,11vw,96px);font-weight:900;line-height:.92;letter-spacing:-4px;margin-bottom:16px}
+.logo-white{color:#ffffff;-webkit-text-fill-color:#ffffff}
+.fire{background:linear-gradient(135deg,#ff5c1a,#ffaa5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 20px rgba(255,92,26,.4))}
+.hdr p{font-size:15px;color:var(--tx2);line-height:1.65;max-width:420px;margin:0 auto}
+
+/* TOOLS GRID */
+.tools-hd{text-align:center;margin-bottom:36px}
+.tools-hd h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,5vw,36px);font-weight:800;letter-spacing:-1px}
+.tools-hd h2 em{color:var(--or);font-style:normal}
+.tools-hd p{font-size:13px;color:var(--tx2);margin-top:7px}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+
+/* TOOL CARD */
+.tc{background:linear-gradient(145deg,rgba(255,255,255,.027),rgba(255,255,255,.008));border:1px solid var(--b1);border-radius:24px;padding:30px 24px;text-decoration:none;display:flex;flex-direction:column;gap:0;position:relative;overflow:hidden;transition:all .25s;animation:up .6s cubic-bezier(.16,1,.3,1) both}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+.tc::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s}
+.tc:hover{transform:translateY(-4px);border-color:var(--b2)}
+.tc:hover::after{opacity:1}
+
+/* Card colors */
+.tc-or::after{background:linear-gradient(135deg,var(--org),transparent)}
+.tc-or:hover{border-color:var(--or);box-shadow:0 8px 40px var(--org)}
+.tc-bl::after{background:linear-gradient(135deg,var(--blg),transparent)}
+.tc-bl:hover{border-color:var(--bl);box-shadow:0 8px 40px var(--blg)}
+.tc-gr::after{background:linear-gradient(135deg,var(--grg),transparent)}
+.tc-gr:hover{border-color:var(--gr);box-shadow:0 8px 40px var(--grg)}
+.tc-ye::after{background:linear-gradient(135deg,var(--yeg),transparent)}
+.tc-ye:hover{border-color:var(--ye);box-shadow:0 8px 40px var(--yeg)}
+.tc-pu::after{background:linear-gradient(135deg,var(--pug),transparent)}
+.tc-pu:hover{border-color:var(--pu);box-shadow:0 8px 40px var(--pug)}
+
+.tc-icon{font-size:36px;margin-bottom:16px;position:relative;z-index:1}
+.tc-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;position:relative;z-index:1}
+.tc-or .tc-tag{color:var(--or)}
+.tc-bl .tc-tag{color:var(--bl)}
+.tc-gr .tc-tag{color:var(--gr)}
+.tc-ye .tc-tag{color:var(--ye)}
+.tc-pu .tc-tag{color:var(--pu)}
+.tc-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--tx);margin-bottom:10px;position:relative;z-index:1}
+.tc-desc{font-size:13px;color:var(--tx2);line-height:1.65;flex:1;position:relative;z-index:1}
+.tc-arrow{margin-top:20px;font-size:13px;font-weight:700;position:relative;z-index:1;display:flex;align-items:center;gap:6px;transition:gap .2s}
+.tc-or .tc-arrow{color:var(--or)}
+.tc-bl .tc-arrow{color:var(--bl)}
+.tc-gr .tc-arrow{color:var(--gr)}
+.tc-ye .tc-arrow{color:var(--ye)}
+.tc-pu .tc-arrow{color:var(--pu)}
+.tc:hover .tc-arrow{gap:10px}
+
+/* COMING SOON badge */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--c3);border:1px solid var(--b2);color:var(--tx3);margin-bottom:8px;position:relative;z-index:1}
+
+/* NAV */
+.nav{display:flex;gap:8px;margin-bottom:14px;justify-content:center}
+.nav a{padding:10px 20px;border-radius:12px;font-size:13px;font-weight:600;color:var(--tx2);text-decoration:none;border:1px solid transparent;transition:all .2s}
+.nav a:hover{color:var(--tx);border-color:var(--b1)}
+.nav a.on{background:var(--c2);border-color:var(--b2);color:var(--or)}
+
+.footer{text-align:center;margin-top:60px;padding-top:22px;border-top:1px solid var(--b1);font-size:12px;color:var(--tx3)}
+.footer a{color:var(--or);text-decoration:none;font-weight:600}
+
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr 1fr}
+  .page{padding:38px 14px 72px}
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="bg-wrap">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="bg-grid"></div>
+</div>
+
+<div class="page">
+  <header class="hdr">
+    <div class="hdr-pill"><span class="dot"></span> Your Fitness Hub</div>
+    <a href="/" class="logo-link"><h1><span class="logo-white">My Fit</span> <span class="fire">Calorie</span></h1></a>
+    <p>All your fitness tools in one place — free, fast & accurate</p>
+  </header>
+
+  <div class="nav">
+    <a href="/" class="nav a on">🏠 Home</a>
+    <a href="/feedback" class="nav a">💬 Feedback</a>
+  </div>
+
+  <div class="tools-hd">
+    <h2>Choose Your <em>Tool</em></h2>
+    <p>Select a calculator to get started</p>
+  </div>
+
+  <div class="grid" style="grid-template-columns:1fr 1fr;max-width:600px;margin:0 auto 16px">
+
+    <a href="/calculator" class="tc tc-or" style="animation-delay:.05s">
+      <div class="tc-icon">🔥</div>
+      <div class="tc-tag">Nutrition</div>
+      <div class="tc-title">Calorie Calculator</div>
+      <div class="tc-desc">Find your exact daily calories and macros for weight loss, maintenance, or muscle gain.</div>
+      <div class="tc-arrow">Calculate now →</div>
+    </a>
+
+    <a href="/bodytype" class="tc tc-bl" style="animation-delay:.1s">
+      <div class="tc-icon">💪</div>
+      <div class="tc-tag">Body Analysis</div>
+      <div class="tc-title">Body Type Calculator</div>
+      <div class="tc-desc">Discover if you are Ectomorph, Mesomorph, or Endomorph based on your measurements.</div>
+      <div class="tc-arrow">Find my type →</div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    My Fit Calorie 🔥 · <a href="/feedback">Give Feedback</a>
+  </div>
+</div>
+</body>
+</html>
