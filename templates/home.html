@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#05060e"/>
+<title>My Fit Calorie - Free Fitness Tools</title>
+<meta name="description" content="My Fit Calorie - Free fitness tools. Calorie calculator, body type calculator, meal planner and more."/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05060e;--c2:#0c0f1d;--c3:#111526;
+  --b1:#1a2038;--b2:#242d4a;
+  --or:#ff5c1a;--org:rgba(255,92,26,.14);--orgg:rgba(255,92,26,.28);
+  --bl:#4d8fff;--blg:rgba(77,143,255,.14);
+  --gr:#00d68f;--grg:rgba(0,214,143,.14);
+  --ye:#ffbe0b;--yeg:rgba(255,190,11,.14);
+  --pu:#a855f7;--pug:rgba(168,85,247,.14);
+  --tx:#f0f2ff;--tx2:#7a86a0;--tx3:#38445a;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+/* BG */
+.bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.o1{width:700px;height:700px;background:radial-gradient(circle,rgba(255,92,26,.09),transparent 70%);top:-250px;right:-180px;animation:fl1 16s ease-in-out infinite}
+.o2{width:550px;height:550px;background:radial-gradient(circle,rgba(77,143,255,.07),transparent 70%);bottom:-180px;left:-180px;animation:fl2 21s ease-in-out infinite}
+.o3{width:350px;height:350px;background:radial-gradient(circle,rgba(0,214,143,.05),transparent 70%);top:42%;left:32%;animation:fl3 27s ease-in-out infinite}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.011) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.011) 1px,transparent 1px);background-size:56px 56px}
+@keyframes fl1{0%,100%{transform:translate(0,0)}50%{transform:translate(-44px,32px) scale(1.09)}}
+@keyframes fl2{0%,100%{transform:translate(0,0)}50%{transform:translate(36px,-44px) scale(1.07)}}
+@keyframes fl3{0%,100%{transform:translate(0,0)}50%{transform:translate(-28px,32px)}}
+/* LAYOUT */
+.page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:56px 18px 100px}
+/* HEADER */
+.hdr{text-align:center;margin-bottom:52px;animation:up .8s cubic-bezier(.16,1,.3,1) both}
+.hdr-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 16px;border-radius:999px;border:1px solid var(--b2);background:var(--c2);font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--tx2);margin-bottom:20px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--or);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.logo-link{text-decoration:none;display:inline-block;transition:opacity .2s}
+.logo-link:hover{opacity:.85}
+.logo-link h1{font-family:'Outfit',sans-serif;font-size:clamp(50px,11vw,96px);font-weight:900;line-height:.92;letter-spacing:-4px;margin-bottom:16px}
+.logo-white{color:#ffffff;-webkit-text-fill-color:#ffffff}
+.fire{background:linear-gradient(135deg,#ff5c1a,#ffaa5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 20px rgba(255,92,26,.4))}
+.hdr p{font-size:15px;color:var(--tx2);line-height:1.65;max-width:420px;margin:0 auto}
+/* GLASS */
+.glass{background:linear-gradient(145deg,rgba(255,255,255,.027),rgba(255,255,255,.008));border:1px solid var(--b1);border-radius:26px;position:relative;overflow:hidden}
+.glass::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+/* TOOLS SECTION */
+.tools-hd{text-align:center;margin-bottom:32px}
+.tools-hd h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,5vw,36px);font-weight:800;letter-spacing:-1px}
+.tools-hd h2 em{color:var(--or);font-style:normal}
+.tools-hd p{font-size:13px;color:var(--tx2);margin-top:7px}
+/* TOOL CARDS GRID */
+.tc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+/* TOOL CARD */
+.tc{background:linear-gradient(145deg,rgba(255,255,255,.027),rgba(255,255,255,.008));border:1px solid var(--b1);border-radius:24px;padding:30px 24px;text-decoration:none;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:all .25s;animation:up .6s cubic-bezier(.16,1,.3,1) both}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+.tc::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s}
+.tc:hover{transform:translateY(-4px);border-color:var(--b2)}
+.tc:hover::after{opacity:1}
+.tc-or::after{background:linear-gradient(135deg,var(--org),transparent)}
+.tc-or:hover{border-color:var(--or);box-shadow:0 8px 40px var(--org)}
+.tc-bl::after{background:linear-gradient(135deg,var(--blg),transparent)}
+.tc-bl:hover{border-color:var(--bl);box-shadow:0 8px 40px var(--blg)}
+.tc-gr::after{background:linear-gradient(135deg,var(--grg),transparent)}
+.tc-gr:hover{border-color:var(--gr);box-shadow:0 8px 40px var(--grg)}
+.tc-icon{font-size:36px;margin-bottom:16px;position:relative;z-index:1}
+.tc-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.tc-or .tc-tag{color:var(--or)}
+.tc-bl .tc-tag{color:var(--bl)}
+.tc-gr .tc-tag{color:var(--gr)}
+.tc-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--tx);margin-bottom:10px}
+.tc-desc{font-size:13px;color:var(--tx2);line-height:1.65;flex:1}
+.tc-content{flex:1;min-width:0;position:relative;z-index:1}
+.tc-arrow{margin-top:20px;font-size:13px;font-weight:700;position:relative;z-index:1;display:flex;align-items:center;gap:6px;transition:gap .2s}
+.tc-or .tc-arrow{color:var(--or)}
+.tc-bl .tc-arrow{color:var(--bl)}
+.tc-gr .tc-arrow{color:var(--gr)}
+.tc:hover .tc-arrow{gap:10px}
+/* NUTRITION SECTION */
+.art-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+/* FOOTER */
+.footer{text-align:center;margin-top:60px;padding-top:22px;border-top:1px solid var(--b1);font-size:12px;color:var(--tx3)}
+.footer a{color:var(--or);text-decoration:none;font-weight:600}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+/* MOBILE */
+@media(max-width:768px){
+  .page{padding:28px 14px 80px}
+  .logo-link h1{font-size:clamp(36px,11vw,56px) !important;letter-spacing:-2px !important}
+  .hdr{margin-bottom:28px}
+  .hdr p{font-size:13px}
+  .tools-hd h2{font-size:clamp(20px,6vw,28px)}
+  .tools-hd{margin-bottom:20px}
+
+  /* CARDS - stack vertically, clean layout */
+  .tc-grid{grid-template-columns:1fr;gap:10px}
+  .tc{
+    flex-direction:row;
+    align-items:center;
+    padding:18px 16px;
+    gap:14px;
+    min-height:auto;
+  }
+  .tc-icon{
+    font-size:30px;
+    margin-bottom:0;
+    flex-shrink:0;
+    width:44px;
+    text-align:center;
+  }
+  .tc-content{flex:1;min-width:0}
+  .tc-tag{font-size:9px;margin-bottom:4px;letter-spacing:1.5px}
+  .tc-title{font-size:15px;margin-bottom:4px;white-space:nowrap}
+  .tc-desc{font-size:11px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .tc-arrow{margin-top:6px;font-size:11px}
+
+  /* Articles */
+  .art-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="bg-wrap">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="bg-grid"></div>
+</div>
+<div class="page">
+  <header class="hdr">
+    <div style="display:block;text-align:center;margin-bottom:20px">
+      <span class="hdr-pill"><span class="dot"></span> Your Fitness Hub</span>
+    </div>
+    <a href="/" class="logo-link"><h1><span class="logo-white">My Fit</span> <span class="fire">Calorie</span></h1></a>
+    <p>All your fitness tools in one place — free, fast & accurate</p>
+  </header>
+
+  <div class="tools-hd">
+    <h2>Choose Your <em>Tool</em></h2>
+    <p>Select a calculator to get started</p>
+  </div>
+
+  <div class="tc-grid">
+    <a href="/calculator" class="tc tc-or" style="animation-delay:.05s">
+      <div class="tc-icon">🔥</div>
+      <div class="tc-content">
+        <div class="tc-tag">Nutrition</div>
+        <div class="tc-title">Calorie Calculator</div>
+        <div class="tc-desc">Find your exact daily calories and macros for weight loss, maintenance, or muscle gain.</div>
+        <div class="tc-arrow">Calculate now →</div>
+      </div>
+    </a>
+    <a href="/bodytype" class="tc tc-bl" style="animation-delay:.1s">
+      <div class="tc-icon">💪</div>
+      <div class="tc-content">
+        <div class="tc-tag">Body Analysis</div>
+        <div class="tc-title">Body Type Calculator</div>
+        <div class="tc-desc">Discover if you are Ectomorph, Mesomorph, or Endomorph based on your measurements.</div>
+        <div class="tc-arrow">Find my type →</div>
+      </div>
+    </a>
+    <a href="/mealplan" class="tc tc-gr" style="animation-delay:.15s">
+      <div class="tc-icon">🥗</div>
+      <div class="tc-content">
+        <div class="tc-tag">Nutrition</div>
+        <div class="tc-title">Meal Planner</div>
+        <div class="tc-desc">Get a personalized daily meal plan for fat loss or muscle gain based on your calorie target.</div>
+        <div class="tc-arrow">Plan my meals →</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- NUTRITION GUIDE -->
+  <div style="margin-top:80px">
+    <div class="tools-hd" style="margin-bottom:36px">
+      <h2>Nutrition <em style="color:var(--or);font-style:normal">Guide</em></h2>
+      <p>What you need to know about food, calories & fitness</p>
+    </div>
+    <div class="art-grid">
+      <div class="glass" style="padding:26px">
+        <div style="font-size:26px;margin-bottom:13px">🎯</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;margin-bottom:9px">Calories In, Calories Out</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.72">Weight management is driven by one principle: energy balance. Eat fewer calories than your body uses, and you lose weight. Eat more, and you gain. The <strong style="color:var(--tx);font-weight:600">quality and source</strong> of food also affects how your body feels and performs.</div>
+      </div>
+      <div class="glass" style="padding:26px">
+        <div style="font-size:26px;margin-bottom:13px">📏</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;margin-bottom:9px">Losing Weight Safely</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.72">Around <strong style="color:var(--tx);font-weight:600">0.45kg lost per week</strong> is a safe, sustainable target. A 500 kcal daily deficit gets you there without extreme restriction. Going beyond 1000 kcal deficit daily risks fatigue and muscle loss.</div>
+      </div>
+      <div class="glass" style="padding:26px">
+        <div style="font-size:26px;margin-bottom:13px">🥩</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;margin-bottom:9px">Protein is King</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.72">Protein keeps you full, preserves muscle during fat loss, and burns more calories to digest. Whether cutting or bulking, <strong style="color:var(--tx);font-weight:600">hit your protein target daily</strong>. Aim for 1.6–2g per kg of bodyweight.</div>
+      </div>
+      <div class="glass" style="padding:26px">
+        <div style="font-size:26px;margin-bottom:13px">🍚</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;margin-bottom:9px">Carbs & Fats: Balance</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.72">Carbs fuel workouts. Fats support hormones. Neither should be eliminated — <strong style="color:var(--tx);font-weight:600">balance is everything</strong>. Choose rice, oats, sweet potato for carbs. Avocado, nuts, olive oil for fats.</div>
+      </div>
+      <div class="glass" style="padding:26px">
+        <div style="font-size:26px;margin-bottom:13px">🍽️</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;margin-bottom:9px">Portion Control</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.72">Restaurant servings can be <strong style="color:var(--tx);font-weight:600">2-3x larger</strong> than needed. Using a smaller plate, slowing down while eating, and measuring portions for a few weeks builds lasting habits without feeling like dieting.</div>
+      </div>
+      <div class="glass" style="padding:26px">
+        <div style="font-size:26px;margin-bottom:13px">💧</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;margin-bottom:9px">Hydration Matters</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.72">Drinking enough water <strong style="color:var(--tx);font-weight:600">boosts metabolism by up to 30%</strong> for 90 minutes after drinking. Dehydration slows fat burning and makes you feel hungry. Aim for 2.5–3 liters daily.</div>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div class="glass" style="padding:32px;margin-bottom:12px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;margin-bottom:5px">🚶 Steps & Calories Burned</h3>
+      <p style="font-size:13px;color:var(--tx2);margin-bottom:22px">Approximate burn for a 70kg person</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" class="steps-grid">
+        <div style="background:var(--c2);border:1.5px solid var(--b1);border-radius:16px;padding:20px 12px;text-align:center;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--bl),transparent)"></div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">5,000 Steps</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:800;color:var(--bl);line-height:1">~200</div>
+          <div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-top:3px">kcal burned</div>
+          <div style="font-size:12px;color:var(--tx2);font-weight:600;margin-top:10px;padding-top:10px;border-top:1px solid var(--b1)">≈ 3.5 km</div>
+        </div>
+        <div style="background:var(--c2);border:1.5px solid var(--b1);border-radius:16px;padding:20px 12px;text-align:center;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gr),transparent)"></div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">8,000 Steps</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:800;color:var(--gr);line-height:1">~320</div>
+          <div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-top:3px">kcal burned</div>
+          <div style="font-size:12px;color:var(--tx2);font-weight:600;margin-top:10px;padding-top:10px;border-top:1px solid var(--b1)">≈ 5.6 km</div>
+        </div>
+        <div style="background:var(--c2);border:1.5px solid var(--b1);border-radius:16px;padding:20px 12px;text-align:center;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--or),transparent)"></div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">10,000 Steps</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:800;color:var(--or);line-height:1">~400</div>
+          <div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-top:3px">kcal burned</div>
+          <div style="font-size:12px;color:var(--tx2);font-weight:600;margin-top:10px;padding-top:10px;border-top:1px solid var(--b1)">≈ 7 km</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Food Table -->
+    <div class="glass" style="overflow:hidden;margin-bottom:12px">
+      <div style="padding:18px 24px;border-bottom:1px solid var(--b1);font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:800">🍎 Calories in <span style="color:var(--or)">Common Foods</span></div>
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;min-width:320px">
+        <thead><tr>
+          <th style="padding:9px 16px;text-align:left;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);background:var(--c2);border-bottom:1px solid var(--b1)">Food</th>
+          <th style="padding:9px 16px;text-align:left;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);background:var(--c2);border-bottom:1px solid var(--b1)">Serving</th>
+          <th style="padding:9px 16px;text-align:left;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);background:var(--c2);border-bottom:1px solid var(--b1)">Kcal</th>
+        </tr></thead>
+        <tbody>
+          <tr style="background:rgba(0,214,143,.04)"><td colspan="3" style="padding:7px 16px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gr)">Proteins</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Chicken Breast</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">100g cooked</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">165</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Egg</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">1 large</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">78</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Fish</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">100g</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">136</td></tr>
+          <tr style="background:rgba(255,190,11,.04)"><td colspan="3" style="padding:7px 16px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ye)">Grains</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Rice (white)</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">1 cup cooked</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">206</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Roti (chapati)</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">1 medium</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">120</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Oats</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">1 cup cooked</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">166</td></tr>
+          <tr style="background:rgba(0,214,143,.04)"><td colspan="3" style="padding:7px 16px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gr)">Fruits</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Banana</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">1 medium</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">105</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Apple</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">1 medium</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">95</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Mango</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">1 cup</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">107</td></tr>
+          <tr style="background:rgba(168,85,247,.04)"><td colspan="3" style="padding:7px 16px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--pu)">Snacks</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Almonds</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">28g</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">164</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx);font-weight:500">Pizza slice</td><td style="padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(26,32,56,.7);color:var(--tx2)">1 slice</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or);border-bottom:1px solid rgba(26,32,56,.7)">285</td></tr>
+          <tr><td style="padding:10px 16px;font-size:13px;color:var(--tx);font-weight:500">Burger</td><td style="padding:10px 16px;font-size:13px;color:var(--tx2)">1 sandwich</td><td style="padding:10px 16px;font-size:14px;font-weight:800;color:var(--or)">354</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,rgba(0,214,143,.14),rgba(77,143,255,.14));border:1px solid rgba(0,214,143,.16);border-radius:20px;padding:22px 26px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start">
+      <div style="font-size:28px;flex-shrink:0">💡</div>
+      <div>
+        <h4 style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;margin-bottom:5px">Exercise Puts Food in Perspective</h4>
+        <p style="font-size:13px;color:var(--tx2);line-height:1.65">Once you realise that a <strong style="color:var(--tx);font-weight:600">220-calorie snack</strong> requires roughly 25 minutes of running to burn off, the choice becomes much easier. Tracking food and exercise together creates a feedback loop that steers you toward smarter choices naturally.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">My Fit Calorie 🔥 · <a href="/feedback">Give Feedback</a></div>
+</div>
+</body>
+</html>
