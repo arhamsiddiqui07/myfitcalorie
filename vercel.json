@@ -1,27 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python"
-    }
-  ],
+  "builds": [{"src": "app.py", "use": "@vercel/python"}],
   "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/robots.txt"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "app.py"
-    }
+    {"src": "/sitemap.xml", "dest": "/app.py"},
+    {"src": "/robots.txt", "dest": "/app.py"},
+    {"src": "/(.*)", "dest": "/app.py"}
   ]
 }
