@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#05060e"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>My Fit Calorie — Free Fitness Tools</title>
+<meta name="description" content="Free fitness tools: calorie calculator, body type calculator, and meal planner. All in one place."/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#05060e;--c2:#0c0f1d;--c3:#111526;--b1:#1a2038;--b2:#242d4a;--or:#ff5c1a;--org:rgba(255,92,26,.14);--orgg:rgba(255,92,26,.28);--bl:#4d8fff;--blg:rgba(77,143,255,.14);--blgg:rgba(77,143,255,.28);--gr:#00d68f;--grg:rgba(0,214,143,.14);--ye:#ffbe0b;--yeg:rgba(255,190,11,.14);--re:#ff3d6b;--reg:rgba(255,61,107,.14);--pu:#a855f7;--pug:rgba(168,85,247,.14);--tx:#f0f2ff;--tx2:#7a86a0;--tx3:#38445a}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+input[type=number]{-moz-appearance:textfield}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+.bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}.orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.o1{width:700px;height:700px;top:-250px;right:-180px;animation:fl1 16s ease-in-out infinite}.o2{width:550px;height:550px;bottom:-180px;left:-180px;animation:fl2 21s ease-in-out infinite}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.011) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.011) 1px,transparent 1px);background-size:56px 56px}
+@keyframes fl1{0%,100%{transform:translate(0,0)}50%{transform:translate(-44px,32px) scale(1.08)}}@keyframes fl2{0%,100%{transform:translate(0,0)}50%{transform:translate(36px,-44px) scale(1.07)}}
+.page{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:52px 18px 100px}
+.hdr{text-align:center;margin-bottom:44px;animation:up .8s cubic-bezier(.16,1,.3,1) both}
+.logo-link{text-decoration:none;display:inline-block;transition:opacity .2s}.logo-link:hover{opacity:.85}
+.logo-link h1{font-family:'Outfit',sans-serif;font-size:clamp(46px,10vw,88px);font-weight:900;line-height:.92;letter-spacing:-4px;margin-bottom:14px}
+.logo-w{color:#fff;-webkit-text-fill-color:#fff}.fire{background:linear-gradient(135deg,#ff5c1a,#ffaa5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 20px rgba(255,92,26,.4))}
+.hdr p{font-size:14px;color:var(--tx2);max-width:400px;margin:0 auto;line-height:1.65}
+.nav{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}.nav::-webkit-scrollbar{display:none}
+.nav a{padding:9px 16px;border-radius:12px;font-size:12px;font-weight:600;color:var(--tx2);text-decoration:none;border:1px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.nav a:hover{color:var(--tx);border-color:var(--b1)}.nav a.on{background:var(--c2);border-color:var(--b2);color:var(--or)}
+.glass{background:linear-gradient(145deg,rgba(255,255,255,.027),rgba(255,255,255,.008));border:1px solid var(--b1);border-radius:24px;position:relative;overflow:hidden}
+.glass::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+.card{padding:36px;margin-bottom:14px;box-shadow:0 32px 80px rgba(0,0,0,.5);animation:up .6s cubic-bezier(.16,1,.3,1) .1s both}
+.err{background:var(--reg);border:1px solid rgba(255,61,107,.25);border-radius:13px;padding:14px 18px;color:var(--re);font-size:14px;margin-bottom:18px}
+.sec-lbl{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:14px;display:block}
+.blk{margin-bottom:26px}.pills{display:inline-flex;background:var(--c2);border:1px solid var(--b1);border-radius:12px;padding:4px;gap:3px;margin-bottom:13px;flex-wrap:wrap}
+.pi input{display:none}.pi label{display:block;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--tx2);transition:all .2s;white-space:nowrap}
+.pi input:checked+label{background:var(--or);color:#fff;box-shadow:0 2px 14px var(--orgg)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fi{display:flex;flex-direction:column;gap:6px}
+.fi label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx3)}
+.iw{position:relative}.sf{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--tx3);pointer-events:none}
+input[type=number]{width:100%;background:var(--c2);border:1.5px solid var(--b1);border-radius:13px;color:var(--tx);font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;padding:13px 48px 13px 16px;outline:none;transition:all .2s}
+input[type=number]:focus{border-color:var(--or);background:var(--c3);box-shadow:0 0 0 3px rgba(255,92,26,.1)}
+input[type=number]::placeholder{color:var(--tx3);font-size:17px;font-weight:500}
+.hide{display:none}.sg{display:grid}.sb{display:block}
+.og2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.og3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.og6{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.op input{display:none}.op label{display:flex;flex-direction:column;padding:15px;background:var(--c2);border:1.5px solid var(--b1);border-radius:14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.op label::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--org),transparent);opacity:0;transition:opacity .2s}
+.op input:checked+label{border-color:var(--or);box-shadow:0 0 0 1px var(--or),0 4px 20px var(--org)}.op input:checked+label::after{opacity:1}.op label:hover{border-color:var(--b2)}
+.oi{font-size:20px;margin-bottom:7px;position:relative;z-index:1}.ot{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--tx);position:relative;z-index:1}
+.os{font-size:11px;color:var(--tx2);margin-top:2px;position:relative;z-index:1}.op input:checked+label .ot{color:var(--or)}
+.gc-op .op label{align-items:center;text-align:center;padding:18px}.gc-op .oi{font-size:28px;margin-bottom:8px}.gc-op .ot{font-size:15px}
+.sbtn{width:100%;padding:18px;background:linear-gradient(135deg,var(--or),#df3f0e);border:none;border-radius:14px;font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800;color:#fff;cursor:pointer;transition:all .22s;box-shadow:0 4px 32px var(--orgg);margin-top:14px;position:relative;overflow:hidden}
+.sbtn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 55%)}.sbtn:hover{transform:translateY(-2px);box-shadow:0 8px 44px var(--orgg)}
+.rbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--c2);border:1.5px solid var(--b1);border-radius:14px;color:var(--tx2);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;margin-top:4px}
+.rbtn:hover{border-color:var(--or);color:var(--or);background:var(--org)}
+.footer{text-align:center;margin-top:60px;padding-top:20px;border-top:1px solid var(--b1);font-size:12px;color:var(--tx3)}.footer a{color:var(--or);text-decoration:none;font-weight:600}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.page{padding:28px 12px 80px}.logo-link h1{font-size:clamp(34px,13vw,54px) !important;letter-spacing:-2px !important}.card{padding:18px}.g2{grid-template-columns:1fr}.og6{grid-template-columns:1fr 1fr}.pills{flex-wrap:wrap}input[type=number]{font-size:19px;padding:11px 44px 11px 14px}.nav a{padding:8px 12px;font-size:11px}}
+.tc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+.tc{background:linear-gradient(145deg,rgba(255,255,255,.027),rgba(255,255,255,.008));border:1px solid var(--b1);border-radius:24px;padding:28px 22px;text-decoration:none;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:all .25s;animation:up .6s cubic-bezier(.16,1,.3,1) both}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+.tc::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s}
+.tc:hover{transform:translateY(-4px)}
+.tc:hover::after{opacity:1}
+.tc-or::after{background:linear-gradient(135deg,var(--org),transparent)}.tc-or:hover{border-color:var(--or);box-shadow:0 8px 40px var(--org)}
+.tc-bl::after{background:linear-gradient(135deg,var(--blg),transparent)}.tc-bl:hover{border-color:var(--bl);box-shadow:0 8px 40px var(--blg)}
+.tc-gr::after{background:linear-gradient(135deg,var(--grg),transparent)}.tc-gr:hover{border-color:var(--gr);box-shadow:0 8px 40px var(--grg)}
+.tc-icon{font-size:34px;margin-bottom:14px;position:relative;z-index:1}
+.tc-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;position:relative;z-index:1}
+.tc-or .tc-tag{color:var(--or)}.tc-bl .tc-tag{color:var(--bl)}.tc-gr .tc-tag{color:var(--gr)}
+.tc-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;color:var(--tx);margin-bottom:8px;position:relative;z-index:1}
+.tc-desc{font-size:13px;color:var(--tx2);line-height:1.65;flex:1;position:relative;z-index:1}
+.tc-arrow{margin-top:18px;font-size:13px;font-weight:700;position:relative;z-index:1;transition:gap .2s}
+.tc-or .tc-arrow{color:var(--or)}.tc-bl .tc-arrow{color:var(--bl)}.tc-gr .tc-arrow{color:var(--gr)}
+.tc:hover .tc-arrow{letter-spacing:.5px}
+.sec-hd{text-align:center;margin-bottom:32px}
+.sec-hd h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,5vw,36px);font-weight:800;letter-spacing:-1px}
+.sec-hd h2 em{color:var(--or);font-style:normal}
+.sec-hd p{font-size:13px;color:var(--tx2);margin-top:7px}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.ac{padding:24px}.ai{font-size:24px;margin-bottom:12px}.at{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800;margin-bottom:8px}
+.ab{font-size:13px;color:var(--tx2);line-height:1.7}.ab strong{color:var(--tx);font-weight:600}
+.tip{background:linear-gradient(135deg,rgba(0,214,143,.1),rgba(77,143,255,.08));border:1px solid rgba(0,214,143,.15);border-radius:20px;padding:20px 24px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start}
+.tip-i{font-size:26px;flex-shrink:0}.tip h4{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;margin-bottom:5px}
+.tip p{font-size:13px;color:var(--tx2);line-height:1.65}.tip p strong{color:var(--tx);font-weight:600}
+@media(max-width:700px){.tc-grid{grid-template-columns:1fr;gap:10px}.tc{flex-direction:row;align-items:center;padding:18px 16px;gap:14px}.tc-icon{font-size:28px;margin-bottom:0;flex-shrink:0;width:42px;text-align:center}.tc-tag{margin-bottom:3px}.tc-title{font-size:15px;margin-bottom:3px}.tc-desc{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.tc-arrow{margin-top:6px;font-size:12px}.ag{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-wrap">
+  <div class="orb o1" style="background:radial-gradient(circle,rgba(255,92,26,.09),transparent 70%)"></div>
+  <div class="orb o2" style="background:radial-gradient(circle,rgba(77,143,255,.07),transparent 70%)"></div>
+  <div class="bg-grid"></div>
+</div>
+<div class="page">
+  <header class="hdr">
+    <a href="/" class="logo-link"><h1><span class="logo-w">My Fit</span> <span class="fire">Calorie</span></h1></a>
+    <p>All your fitness tools in one place — free, fast & accurate</p>
+  </header>
+  <div class="sec-hd"><h2>Choose Your <em>Tool</em></h2><p>Select a calculator to get started</p></div>
+  <div class="tc-grid">
+    <a href="/calculator" class="tc tc-or">
+      <div class="tc-icon">🔥</div><div class="tc-tag">Nutrition</div>
+      <div class="tc-title">Calorie Calculator</div>
+      <div class="tc-desc">Find your exact daily calories and macros for weight loss, maintenance, or muscle gain.</div>
+      <div class="tc-arrow">Calculate now →</div>
+    </a>
+    <a href="/bodytype" class="tc tc-bl">
+      <div class="tc-icon">💪</div><div class="tc-tag">Body Analysis</div>
+      <div class="tc-title">Body Type Calculator</div>
+      <div class="tc-desc">Discover if you are Ectomorph, Mesomorph, or Endomorph based on your measurements.</div>
+      <div class="tc-arrow">Find my type →</div>
+    </a>
+    <a href="/mealplan" class="tc tc-gr">
+      <div class="tc-icon">🥗</div><div class="tc-tag">Nutrition</div>
+      <div class="tc-title">Meal Planner</div>
+      <div class="tc-desc">Get a personalized daily meal plan for fat loss or muscle gain based on your calorie target.</div>
+      <div class="tc-arrow">Plan my meals →</div>
+    </a>
+  </div>
+  <div style="margin-top:72px">
+    <div class="sec-hd"><h2>Nutrition <em>Guide</em></h2><p>What you need to know about food, calories &amp; fitness</p></div>
+    <div class="ag">
+      <div class="glass ac"><div class="ai">🎯</div><div class="at">Calories In, Calories Out</div><div class="ab">Weight management is driven by one principle: energy balance. Eat fewer calories than your body uses and you lose weight. Eat more, and you gain. The <strong>quality of food</strong> also affects how your body performs long term.</div></div>
+      <div class="glass ac"><div class="ai">📏</div><div class="at">Losing Weight Safely</div><div class="ab">Around <strong>0.45kg lost per week</strong> is a safe target. A 500 kcal daily deficit gets you there. Going beyond 1000 kcal deficit risks fatigue and muscle loss. Weigh yourself weekly for a clearer trend.</div></div>
+      <div class="glass ac"><div class="ai">🥩</div><div class="at">Protein is King</div><div class="ab">Protein keeps you full, preserves muscle during fat loss, and burns more calories to digest. Whether cutting or bulking, <strong>hit your protein target daily</strong>. Aim for 1.6–2g per kg of bodyweight.</div></div>
+      <div class="glass ac"><div class="ai">🍚</div><div class="at">Carbs &amp; Fats: Balance</div><div class="ab">Carbs fuel workouts. Fats support hormones. Neither should be eliminated — <strong>balance is everything</strong>. Choose rice, oats, sweet potato for carbs. Avocado, nuts, olive oil for fats.</div></div>
+    </div>
+    <div class="glass" style="padding:28px;margin-bottom:12px">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px">🚶 Steps &amp; Calories Burned</h3>
+      <p style="font-size:13px;color:var(--tx2);margin-bottom:20px">Approximate burn for a 70kg person</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <div style="background:var(--c2);border:1.5px solid var(--b1);border-radius:14px;padding:18px 10px;text-align:center;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--bl),transparent)"></div><div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">5,000 Steps</div><div style="font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:800;color:var(--bl);line-height:1">~200</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;margin-top:3px">kcal</div><div style="font-size:11px;color:var(--tx2);margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">≈ 3.5 km</div></div>
+        <div style="background:var(--c2);border:1.5px solid var(--b1);border-radius:14px;padding:18px 10px;text-align:center;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gr),transparent)"></div><div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">8,000 Steps</div><div style="font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:800;color:var(--gr);line-height:1">~320</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;margin-top:3px">kcal</div><div style="font-size:11px;color:var(--tx2);margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">≈ 5.6 km</div></div>
+        <div style="background:var(--c2);border:1.5px solid var(--b1);border-radius:14px;padding:18px 10px;text-align:center;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--or),transparent)"></div><div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">10,000 Steps</div><div style="font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:800;color:var(--or);line-height:1">~400</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;margin-top:3px">kcal</div><div style="font-size:11px;color:var(--tx2);margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">≈ 7 km</div></div>
+      </div>
+    </div>
+    <div class="tip"><div class="tip-i">💡</div><div><h4>Exercise Puts Food in Perspective</h4><p>Once you realise a <strong>220-calorie snack</strong> requires ~25 minutes of running, the choice becomes easier. Tracking food and exercise together creates a feedback loop that steers you toward smarter choices.</p></div></div>
+    <div class="ag">
+      <div class="glass ac"><div class="ai">😴</div><div class="at">Sleep Affects Fat Loss</div><div class="ab">Bad sleep raises hunger hormones, leading to <strong>300–500 extra calories</strong> consumed the next day. Getting 7–9 hours nightly is one of the most underrated fat-loss tools available.</div></div>
+      <div class="glass ac"><div class="ai">🏋️</div><div class="at">Muscle Burns Fat</div><div class="ab">Each kg of muscle burns ~<strong>13 extra kcal/day at rest</strong>. 5kg of added muscle means 2,000+ extra calories burned monthly without extra effort. Strength training upgrades your metabolism permanently.</div></div>
+    </div>
+  </div>
+  <div class="footer">My Fit Calorie 🔥 · <a href="/feedback">Give Feedback</a></div>
+</div>
+</body>
+</html>
