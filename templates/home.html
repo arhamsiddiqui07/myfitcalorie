@@ -36,7 +36,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 
 /* HEADER */
 .hdr{text-align:center;margin-bottom:60px;animation:up .8s cubic-bezier(.16,1,.3,1) both}
-.hdr-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 16px;border-radius:999px;border:1px solid var(--b2);background:var(--c2);font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--tx2);margin-bottom:20px;margin-left:auto;margin-right:auto}
+.hdr-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 16px;border-radius:999px;border:1px solid var(--b2);background:var(--c2);font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--tx2);margin-bottom:20px}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--or);animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 .logo-link{text-decoration:none;display:inline-block;transition:opacity .2s}
@@ -123,13 +123,16 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 
 <div class="page">
   <header class="hdr">
-    <div class="hdr-pill"><span class="dot"></span> Your Fitness Hub</div>
+    <div style="display:block;text-align:center;margin-bottom:20px"><span class="hdr-pill"><span class="dot"></span> Your Fitness Hub</span></div>
     <a href="/" class="logo-link"><h1><span class="logo-white">My Fit</span> <span class="fire">Calorie</span></h1></a>
     <p>All your fitness tools in one place — free, fast & accurate</p>
   </header>
 
   <div class="nav">
     <a href="/" class="nav a on">🏠 Home</a>
+    <a href="/calculator" class="nav a">🔥 Calories</a>
+    <a href="/bodytype" class="nav a">💪 Body Type</a>
+    <a href="/mealplan" class="nav a">🥗 Meal Plan</a>
     <a href="/feedback" class="nav a">💬 Feedback</a>
   </div>
 
@@ -138,7 +141,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
     <p>Select a calculator to get started</p>
   </div>
 
-  <div class="grid" style="grid-template-columns:1fr 1fr;max-width:600px;margin:0 auto 16px">
+  <div class="grid" style="grid-template-columns:repeat(3,1fr);margin:0 auto 16px">
 
     <a href="/calculator" class="tc tc-or" style="animation-delay:.05s">
       <div class="tc-icon">🔥</div>
@@ -154,6 +157,14 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
       <div class="tc-title">Body Type Calculator</div>
       <div class="tc-desc">Discover if you are Ectomorph, Mesomorph, or Endomorph based on your measurements.</div>
       <div class="tc-arrow">Find my type →</div>
+    </a>
+
+    <a href="/mealplan" class="tc tc-gr" style="animation-delay:.15s">
+      <div class="tc-icon">🥗</div>
+      <div class="tc-tag">Nutrition</div>
+      <div class="tc-title">Meal Planner</div>
+      <div class="tc-desc">Get a personalized daily meal plan for fat loss or muscle gain based on your calorie target.</div>
+      <div class="tc-arrow">Plan my meals →</div>
     </a>
 
   </div>
