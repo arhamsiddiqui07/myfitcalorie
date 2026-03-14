@@ -154,6 +154,113 @@ def feedback():
 def feedback_thanks():
     return render_template("feedback.html", sent=True, feedbacks=load_feedbacks())
 
+
+def make_meal_plan(kcal, goal):
+    # Distribute calories: Breakfast 25%, Lunch 35%, Snack 15%, Dinner 25%
+    b = int(kcal * 0.25)
+    l = int(kcal * 0.35)
+    s = int(kcal * 0.15)
+    d = kcal - b - l - s
+
+    if goal == "loss":
+        breakfast = [
+            {"em":"🥚","name":"Boiled Eggs","portion":"3 large eggs","cal":234,"macro":"P: 18g  F: 15g"},
+            {"em":"🍞","name":"Brown Bread","portion":"1 slice (30g)","cal":80,"macro":"C: 15g  F: 1g"},
+            {"em":"🥛","name":"Skimmed Milk","portion":"1 cup (240ml)","cal":83,"macro":"P: 8g  C: 12g"},
+        ]
+        lunch = [
+            {"em":"🍗","name":"Grilled Chicken Breast","portion":"150g cooked","cal":248,"macro":"P: 46g  F: 5g"},
+            {"em":"🍚","name":"Brown Rice","portion":"½ cup cooked","cal":108,"macro":"C: 22g  P: 2g"},
+            {"em":"🥗","name":"Mixed Salad","portion":"1 large bowl","cal":45,"macro":"C: 9g  F: 0g"},
+        ]
+        snack = [
+            {"em":"🥜","name":"Almonds","portion":"20g (handful)","cal":116,"macro":"P: 4g  F: 10g"},
+            {"em":"🍎","name":"Apple","portion":"1 medium","cal":95,"macro":"C: 25g  F: 0g"},
+        ]
+        dinner = [
+            {"em":"🐟","name":"Grilled Fish","portion":"150g","cal":200,"macro":"P: 34g  F: 6g"},
+            {"em":"🥦","name":"Steamed Broccoli","portion":"1 cup","cal":55,"macro":"C: 11g  P: 4g"},
+            {"em":"🫘","name":"Lentil Soup (Daal)","portion":"1 cup","cal":140,"macro":"P: 9g  C: 24g"},
+        ]
+        tip_title = "Fat Loss Tip"
+        tip = "Keep your <strong>protein high</strong> and carbs moderate. High protein keeps you full longer and preserves muscle while you lose fat. Avoid sugary drinks and processed snacks — replace them with water, green tea, and whole foods."
+        goal_label = "🔥 Cut"
+        goal_sub = "Fat Loss"
+    else:
+        breakfast = [
+            {"em":"🥚","name":"Scrambled Eggs","portion":"4 large eggs","cal":312,"macro":"P: 24g  F: 20g"},
+            {"em":"🍞","name":"Brown Bread","portion":"2 slices (60g)","cal":160,"macro":"C: 30g  F: 2g"},
+            {"em":"🥛","name":"Whole Milk","portion":"1 cup (240ml)","cal":149,"macro":"P: 8g  C: 12g  F: 8g"},
+            {"em":"🍌","name":"Banana","portion":"1 medium","cal":105,"macro":"C: 27g  P: 1g"},
+        ]
+        lunch = [
+            {"em":"🍗","name":"Chicken Breast","portion":"200g cooked","cal":330,"macro":"P: 62g  F: 7g"},
+            {"em":"🍚","name":"White Rice","portion":"1 cup cooked","cal":206,"macro":"C: 45g  P: 4g"},
+            {"em":"🫘","name":"Daal (Lentils)","portion":"1 cup","cal":140,"macro":"P: 9g  C: 24g"},
+        ]
+        snack = [
+            {"em":"🥜","name":"Peanut Butter","portion":"2 tbsp","cal":190,"macro":"P: 8g  F: 16g"},
+            {"em":"🍞","name":"Brown Bread","portion":"1 slice","cal":80,"macro":"C: 15g  F: 1g"},
+            {"em":"🥛","name":"Protein Shake / Milk","portion":"1 cup","cal":149,"macro":"P: 8g  C: 12g"},
+        ]
+        dinner = [
+            {"em":"🍗","name":"Chicken Karahi / Curry","portion":"200g chicken","cal":350,"macro":"P: 40g  F: 18g"},
+            {"em":"🍚","name":"Rice or 2 Rotis","portion":"1 cup rice / 2 rotis","cal":240,"macro":"C: 50g  P: 6g"},
+            {"em":"🥗","name":"Raita / Salad","portion":"1 bowl","cal":60,"macro":"P: 3g  C: 6g"},
+        ]
+        tip_title = "Muscle Gain Tip"
+        tip = "Eat in a <strong>calorie surplus</strong> with high protein and carbs. Carbohydrates fuel your workouts and help muscle recovery. Eat your biggest meal after training. Aim for at least <strong>1.6g protein per kg</strong> of your bodyweight daily."
+        goal_label = "💪 Bulk"
+        goal_sub = "Muscle Gain"
+
+    # Scale calories to match target
+    base_total = sum(i["cal"] for i in breakfast+lunch+snack+dinner)
+    scale = kcal / base_total if base_total > 0 else 1
+
+    def scale_items(items):
+        total = 0
+        result = []
+        for item in items:
+            scaled_cal = int(item["cal"] * scale)
+            total += scaled_cal
+            result.append({**item, "cal": scaled_cal})
+        return result, total
+
+    breakfast, b_cal = scale_items(breakfast)
+    lunch, l_cal = scale_items(lunch)
+    snack, s_cal = scale_items(snack)
+    dinner, d_cal = scale_items(dinner)
+
+    return {
+        "kcal": kcal,
+        "goal_label": goal_label,
+        "goal_sub": goal_sub,
+        "breakfast": breakfast, "b_cal": b_cal,
+        "lunch": lunch, "l_cal": l_cal,
+        "snack": snack, "s_cal": s_cal,
+        "dinner": dinner, "d_cal": d_cal,
+        "tip_title": tip_title,
+        "tip": tip
+    }
+
+
+@app.route("/mealplan", methods=["GET","POST"])
+def mealplan():
+    result = error = None
+    if request.method == "POST":
+        try:
+            kcal = int(float(request.form["kcal"]))
+            goal = request.form["goal"]
+            if kcal < 800 or kcal > 6000:
+                error = "Please enter a calorie amount between 800 and 6000."
+            elif goal not in ("loss","gain"):
+                error = "Please select a goal."
+            else:
+                result = make_meal_plan(kcal, goal)
+        except:
+            error = "Please fill in all fields correctly."
+    return render_template("mealplan.html", result=result, error=error)
+
 @app.route("/sitemap.xml")
 def sitemap():
     xml = """<?xml version="1.0" encoding="UTF-8"?>
