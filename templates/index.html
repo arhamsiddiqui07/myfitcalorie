@@ -466,6 +466,7 @@ input[type=number]::placeholder{color:var(--tx3);font-size:18px;font-weight:500}
 
     <!-- MACROS always shows after options -->
     <div class="glass hero" style="margin-bottom:14px">
+      <div style="padding:16px 26px;border-bottom:1px solid var(--b1);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3)">🥩 Daily Macros</div>
       <div class="macs">
         <div class="mc mp"><div class="ml">Protein</div><div class="mn">{{ result.protein }}</div><div class="mu">grams / day</div></div>
         <div class="mc mc2"><div class="ml">Carbs</div><div class="mn">{{ result.carbs }}</div><div class="mu">grams / day</div></div>
@@ -581,113 +582,6 @@ input[type=number]::placeholder{color:var(--tx3);font-size:18px;font-weight:500}
 
       <button type="submit" class="sbtn">Calculate My Calories 🔥</button>
     </form>
-  </div>
-  {% endif %}
-
-  <!-- ═══ INFO SECTION (home page only) ═══ -->
-  {% if not result %}
-  <div class="info">
-    <div class="inf-hd">
-      <h2>Nutrition <em>Guide</em></h2>
-      <p>What you need to know about food, calories & fitness</p>
-    </div>
-
-    <!-- Articles -->
-    <div class="ag">
-      <div class="glass ac">
-        <div class="ai">🎯</div>
-        <div class="at">Calories In, Calories Out</div>
-        <div class="ab">Weight management is driven by one principle: energy balance. Eat fewer calories than your body uses, and you lose weight. Eat more, and you gain. But calories are not the whole story — the <strong>quality and source</strong> of what you eat also affects how your body feels, performs, and how easily you stick to your plan long term.</div>
-      </div>
-      <div class="glass ac">
-        <div class="ai">📏</div>
-        <div class="at">Losing Weight the Right Way</div>
-        <div class="ab">Around <strong>0.45kg lost per week</strong> is a sustainable, healthy target. Cutting 500 calories daily gets you there without extreme restriction. Going beyond a 1000 kcal daily deficit is not advised — it can cause fatigue, muscle loss, and nutritional deficiencies. Always consult a doctor if you're aiming for faster results. Weigh yourself weekly for a clearer trend.</div>
-      </div>
-      <div class="glass ac">
-        <div class="ai">📱</div>
-        <div class="at">Track What You Eat</div>
-        <div class="ab">Most people underestimate their food intake by <strong>20 to 40 percent</strong>. Calorie tracking apps make it easy to log meals, exercise, and progress in one place. Even a few weeks of tracking builds an intuitive sense of portion sizes and calorie content — so eventually, you can eat well without obsessively measuring every bite.</div>
-      </div>
-      <div class="glass ac">
-        <div class="ai">🥗</div>
-        <div class="at">Food Quality Still Matters</div>
-        <div class="ab">Technically you can lose weight eating anything — as long as you stay in a deficit. But <strong>what you eat shapes how you feel</strong>. Whole foods like vegetables, lean proteins, fruits, and grains keep you fuller for longer and provide nutrients that processed snacks cannot. Better food choices mean fewer cravings and a more sustainable routine.</div>
-      </div>
-    </div>
-
-    <!-- Steps on home page -->
-    <div class="glass sc">
-      <h3>🚶 Steps & Calories Burned</h3>
-      <p>Approximate calorie burn for a 70kg person — values vary by weight and walking pace</p>
-      <div class="sr">
-        <div class="sb2 s1"><div class="sl">5,000 Steps</div><div class="scal">~200</div><div class="su">kcal burned</div><div class="sd">≈ 3.5 km walk</div></div>
-        <div class="sb2 s2"><div class="sl">8,000 Steps</div><div class="scal">~320</div><div class="su">kcal burned</div><div class="sd">≈ 5.6 km walk</div></div>
-        <div class="sb2 s3"><div class="sl">10,000 Steps</div><div class="scal">~400</div><div class="su">kcal burned</div><div class="sd">≈ 7 km walk</div></div>
-      </div>
-    </div>
-
-    <!-- Food Table -->
-    <div class="glass ftw">
-      <div class="ft-hd">🍎 Calories in <em>Common Foods</em></div>
-      <table>
-        <thead><tr><th>Food</th><th>Serving</th><th>Calories</th><th>kJ</th></tr></thead>
-        <tbody>
-          <tr class="cat cfr"><td colspan="4">Fruits</td></tr>
-          <tr><td class="tn">Apple</td><td>1 medium</td><td class="tc">95</td><td class="tk">398</td></tr>
-          <tr><td class="tn">Banana</td><td>1 medium</td><td class="tc">105</td><td class="tk">440</td></tr>
-          <tr><td class="tn">Orange</td><td>1 medium</td><td class="tc">62</td><td class="tk">259</td></tr>
-          <tr><td class="tn">Mango</td><td>1 cup</td><td class="tc">107</td><td class="tk">448</td></tr>
-          <tr><td class="tn">Watermelon</td><td>1 cup</td><td class="tc">46</td><td class="tk">193</td></tr>
-          <tr class="cat cve"><td colspan="4">Vegetables</td></tr>
-          <tr><td class="tn">Broccoli</td><td>1 cup</td><td class="tc">55</td><td class="tk">230</td></tr>
-          <tr><td class="tn">Spinach</td><td>1 cup</td><td class="tc">7</td><td class="tk">29</td></tr>
-          <tr><td class="tn">Potato</td><td>1 medium</td><td class="tc">130</td><td class="tk">544</td></tr>
-          <tr><td class="tn">Carrot</td><td>1 cup</td><td class="tc">52</td><td class="tk">218</td></tr>
-          <tr class="cat cpr"><td colspan="4">Proteins</td></tr>
-          <tr><td class="tn">Chicken Breast</td><td>100g cooked</td><td class="tc">165</td><td class="tk">690</td></tr>
-          <tr><td class="tn">Egg</td><td>1 large</td><td class="tc">78</td><td class="tk">327</td></tr>
-          <tr><td class="tn">Beef (lean)</td><td>100g</td><td class="tc">250</td><td class="tk">1047</td></tr>
-          <tr><td class="tn">Fish</td><td>100g</td><td class="tc">136</td><td class="tk">569</td></tr>
-          <tr class="cat cgr"><td colspan="4">Grains & Staples</td></tr>
-          <tr><td class="tn">Rice (white)</td><td>1 cup cooked</td><td class="tc">206</td><td class="tk">862</td></tr>
-          <tr><td class="tn">Roti (chapati)</td><td>1 medium</td><td class="tc">120</td><td class="tk">502</td></tr>
-          <tr><td class="tn">Oats</td><td>1 cup cooked</td><td class="tc">166</td><td class="tk">695</td></tr>
-          <tr class="cat csn"><td colspan="4">Snacks & Meals</td></tr>
-          <tr><td class="tn">Pizza (1 slice)</td><td>14" slice</td><td class="tc">285</td><td class="tk">1193</td></tr>
-          <tr><td class="tn">Burger</td><td>1 sandwich</td><td class="tc">354</td><td class="tk">1482</td></tr>
-          <tr><td class="tn">Dark Chocolate</td><td>30g</td><td class="tc">155</td><td class="tk">649</td></tr>
-          <tr><td class="tn">Almonds</td><td>28g</td><td class="tc">164</td><td class="tk">686</td></tr>
-          <tr class="cat cbv"><td colspan="4">Beverages</td></tr>
-          <tr><td class="tn">Whole Milk</td><td>1 cup</td><td class="tc">149</td><td class="tk">624</td></tr>
-          <tr><td class="tn">Orange Juice</td><td>1 cup</td><td class="tc">112</td><td class="tk">469</td></tr>
-          <tr><td class="tn">Coca-Cola</td><td>1 can</td><td class="tc">150</td><td class="tk">628</td></tr>
-          <tr><td class="tn">Green Tea</td><td>1 cup</td><td class="tc">2</td><td class="tk">8</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="tip">
-      <div class="tip-i">💡</div>
-      <div>
-        <h4>Exercise Puts Food in Perspective</h4>
-        <p>Once you realise that a <strong>220-calorie snack</strong> requires roughly 25 minutes of running to burn off, the choice becomes much easier. Tracking both food and exercise together — even loosely — creates a feedback loop that naturally steers you toward smarter choices without relying purely on willpower.</p>
-      </div>
-    </div>
-
-    <div class="ag">
-      <div class="glass ac">
-        <div class="ai">🍽️</div>
-        <div class="at">Portion Size Is Everything</div>
-        <div class="ab">Many people overeat simply because <strong>they've normalised oversized portions</strong>. Restaurant servings can be two to three times larger than what the body actually needs. Eating from a smaller plate, measuring portions for a few weeks, and slowing down while eating are small habits that consistently reduce intake without feeling like dieting.</div>
-      </div>
-      <div class="glass ac">
-        <div class="ai">🔁</div>
-        <div class="at">Find What Works for You</div>
-        <div class="ab">There is no single diet that works for everyone. Calorie counting is one tool — not the only one. The most effective approach is whichever one you can <strong>stick to consistently</strong>. Whether that means meal prepping, intermittent fasting, or simply eating smaller portions, the best plan is the one that fits your actual lifestyle without feeling like punishment.</div>
-      </div>
-    </div>
-
   </div>
   {% endif %}
 
