@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-  <meta name="google-site-verification" content="9Z_RPn-qAWlU2kl004f-En8nKuIIvCqvbBJPMu6p-9Q" />
+  <!-- SEO Meta Tags -->
   <meta name="description" content="My Fit Calorie - Free calorie calculator. Find your daily calories, macros (protein, carbs, fat) and reach your fitness goals. Weight loss & muscle gain plans."/>
   <meta name="keywords" content="calorie calculator, daily calories, macro calculator, weight loss, muscle gain, BMR calculator, fitness, nutrition, protein carbs fat, diet plan"/>
   <meta name="author" content="My Fit Calorie"/>
@@ -351,7 +351,9 @@ input[type=number]::placeholder{color:var(--tx3);font-size:18px;font-weight:500}
   </header>
 
   <div class="nav">
-    <a href="/" class="nav a on">🔥 Calculator</a>
+    <a href="/" class="nav a">🏠 Home</a>
+    <a href="/calculator" class="nav a on">🔥 Calories</a>
+    <a href="/bodytype" class="nav a">💪 Body Type</a>
     <a href="/feedback" class="nav a">💬 Feedback</a>
   </div>
 
@@ -361,21 +363,8 @@ input[type=number]::placeholder{color:var(--tx3);font-size:18px;font-weight:500}
   {% if result %}
   <div class="rw">
 
-    {% if result.goal == 1 %}
-    <div class="glass main-c">
-      <div class="main-lbl">Your Daily Maintenance Calories</div>
-      <div class="main-num">{{ result.maint }}</div>
-      <div class="main-sub">Eat this amount daily to maintain your current weight</div>
-    </div>
+    <!-- MAINTENANCE always shows first -->
     <div class="glass hero" style="margin-bottom:14px">
-      <div class="macs">
-        <div class="mc mp"><div class="ml">Protein</div><div class="mn">{{ result.protein }}</div><div class="mu">grams / day</div></div>
-        <div class="mc mc2"><div class="ml">Carbs</div><div class="mn">{{ result.carbs }}</div><div class="mu">grams / day</div></div>
-        <div class="mc mf"><div class="ml">Fat</div><div class="mn">{{ result.fat }}</div><div class="mu">grams / day</div></div>
-      </div>
-    </div>
-    {% else %}
-    <div class="glass hero">
       <div class="hero-top">
         <div>
           <div class="h-tag">Daily Maintenance Calories</div>
@@ -383,21 +372,16 @@ input[type=number]::placeholder{color:var(--tx3);font-size:18px;font-weight:500}
           <div class="h-unit">kcal per day</div>
         </div>
         <div>
+          {% if result.goal == 1 %}<div class="h-badge">⚖️ Maintain</div>{% endif %}
           {% if result.goal == 2 %}<div class="h-badge">🔥 Lose Weight</div>{% endif %}
           {% if result.goal == 3 %}<div class="h-badge">💪 Gain Weight</div>{% endif %}
         </div>
       </div>
-      <div class="macs">
-        <div class="mc mp"><div class="ml">Protein</div><div class="mn">{{ result.protein }}</div><div class="mu">grams / day</div></div>
-        <div class="mc mc2"><div class="ml">Carbs</div><div class="mn">{{ result.carbs }}</div><div class="mu">grams / day</div></div>
-        <div class="mc mf"><div class="ml">Fat</div><div class="mn">{{ result.fat }}</div><div class="mu">grams / day</div></div>
-      </div>
     </div>
-    {% endif %}
 
-    <!-- Weight Loss Options -->
+    <!-- LOSS/GAIN OPTIONS right after maintain -->
     {% if result.goal == 2 %}
-    <div class="glass gc">
+    <div class="glass gc" style="margin-bottom:14px">
       <div class="gc-hd">⬇ Weight Loss Options</div>
       <div class="gr">
         <div class="gr-ico" style="background:var(--yeg)">😊</div>
@@ -438,9 +422,8 @@ input[type=number]::placeholder{color:var(--tx3);font-size:18px;font-weight:500}
     </div>
     {% endif %}
 
-    <!-- Weight Gain Options -->
     {% if result.goal == 3 %}
-    <div class="glass gc">
+    <div class="glass gc" style="margin-bottom:14px">
       <div class="gc-hd">⬆ Weight Gain Options</div>
       <div class="gr">
         <div class="gr-ico" style="background:var(--blg)">🏃</div>
@@ -481,29 +464,17 @@ input[type=number]::placeholder{color:var(--tx3);font-size:18px;font-weight:500}
     </div>
     {% endif %}
 
-
-    <!-- Switch to Gain option -->
-    {% if result.goal == 2 %}
-    <div class="glass switch-card">
-      <div class="sw-icon">💪</div>
-      <div class="sw-info">
-        <div class="sw-title">Want to build muscle instead?</div>
-        <div class="sw-sub">Recalculate with a weight gain goal to see your bulking calories</div>
+    <!-- MACROS always shows after options -->
+    <div class="glass hero" style="margin-bottom:14px">
+      <div class="macs">
+        <div class="mc mp"><div class="ml">Protein</div><div class="mn">{{ result.protein }}</div><div class="mu">grams / day</div></div>
+        <div class="mc mc2"><div class="ml">Carbs</div><div class="mn">{{ result.carbs }}</div><div class="mu">grams / day</div></div>
+        <div class="mc mf"><div class="ml">Fat</div><div class="mn">{{ result.fat }}</div><div class="mu">grams / day</div></div>
       </div>
-      <a href="/" class="sw-btn">Try Gain →</a>
     </div>
-    {% endif %}
 
-    {% if result.goal == 3 %}
-    <div class="glass switch-card">
-      <div class="sw-icon">🔥</div>
-      <div class="sw-info">
-        <div class="sw-title">Want to cut fat instead?</div>
-        <div class="sw-sub">Recalculate with a weight loss goal to see your deficit calories</div>
-      </div>
-      <a href="/" class="sw-btn">Try Lose →</a>
-    </div>
-    {% endif %}
+
+
 
     <!-- Steps on result page -->
     <div class="glass res-steps">
