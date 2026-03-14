@@ -180,12 +180,12 @@ input[type=number]:focus{border-color:var(--bl);background:var(--c3);box-shadow:
 
     <div class="glass info-card">
       <div class="ic-title">📋 About {{ result.name }}</div>
-      <div class="ic-body">{{ result.description }}</div>
+      <div class="ic-body">{{ result.description|safe }}</div>
     </div>
 
     <div class="glass info-card">
       <div class="ic-title">💡 Key Characteristics</div>
-      <div class="ic-body">{{ result.characteristics }}</div>
+      <div class="ic-body">{{ result.characteristics|safe }}</div>
     </div>
 
     <a href="/bodytype" class="rbtn">← Calculate Again</a>
