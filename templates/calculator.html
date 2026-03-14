@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#05060e"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>Calorie Calculator — My Fit Calorie</title>
+<meta name="description" content="Free calorie and macro calculator for weight loss, maintenance, or muscle gain."/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#05060e;--c2:#0c0f1d;--c3:#111526;--b1:#1a2038;--b2:#242d4a;--or:#ff5c1a;--org:rgba(255,92,26,.14);--orgg:rgba(255,92,26,.28);--bl:#4d8fff;--blg:rgba(77,143,255,.14);--blgg:rgba(77,143,255,.28);--gr:#00d68f;--grg:rgba(0,214,143,.14);--ye:#ffbe0b;--yeg:rgba(255,190,11,.14);--re:#ff3d6b;--reg:rgba(255,61,107,.14);--pu:#a855f7;--pug:rgba(168,85,247,.14);--tx:#f0f2ff;--tx2:#7a86a0;--tx3:#38445a}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+input[type=number]{-moz-appearance:textfield}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+.bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}.orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.o1{width:700px;height:700px;top:-250px;right:-180px;animation:fl1 16s ease-in-out infinite}.o2{width:550px;height:550px;bottom:-180px;left:-180px;animation:fl2 21s ease-in-out infinite}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.011) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.011) 1px,transparent 1px);background-size:56px 56px}
+@keyframes fl1{0%,100%{transform:translate(0,0)}50%{transform:translate(-44px,32px) scale(1.08)}}@keyframes fl2{0%,100%{transform:translate(0,0)}50%{transform:translate(36px,-44px) scale(1.07)}}
+.page{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:52px 18px 100px}
+.hdr{text-align:center;margin-bottom:44px;animation:up .8s cubic-bezier(.16,1,.3,1) both}
+.logo-link{text-decoration:none;display:inline-block;transition:opacity .2s}.logo-link:hover{opacity:.85}
+.logo-link h1{font-family:'Outfit',sans-serif;font-size:clamp(46px,10vw,88px);font-weight:900;line-height:.92;letter-spacing:-4px;margin-bottom:14px}
+.logo-w{color:#fff;-webkit-text-fill-color:#fff}.fire{background:linear-gradient(135deg,#ff5c1a,#ffaa5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 20px rgba(255,92,26,.4))}
+.hdr p{font-size:14px;color:var(--tx2);max-width:400px;margin:0 auto;line-height:1.65}
+.nav{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}.nav::-webkit-scrollbar{display:none}
+.nav a{padding:9px 16px;border-radius:12px;font-size:12px;font-weight:600;color:var(--tx2);text-decoration:none;border:1px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.nav a:hover{color:var(--tx);border-color:var(--b1)}.nav a.on{background:var(--c2);border-color:var(--b2);color:var(--or)}
+.glass{background:linear-gradient(145deg,rgba(255,255,255,.027),rgba(255,255,255,.008));border:1px solid var(--b1);border-radius:24px;position:relative;overflow:hidden}
+.glass::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+.card{padding:36px;margin-bottom:14px;box-shadow:0 32px 80px rgba(0,0,0,.5);animation:up .6s cubic-bezier(.16,1,.3,1) .1s both}
+.err{background:var(--reg);border:1px solid rgba(255,61,107,.25);border-radius:13px;padding:14px 18px;color:var(--re);font-size:14px;margin-bottom:18px}
+.sec-lbl{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:14px;display:block}
+.blk{margin-bottom:26px}.pills{display:inline-flex;background:var(--c2);border:1px solid var(--b1);border-radius:12px;padding:4px;gap:3px;margin-bottom:13px;flex-wrap:wrap}
+.pi input{display:none}.pi label{display:block;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--tx2);transition:all .2s;white-space:nowrap}
+.pi input:checked+label{background:var(--or);color:#fff;box-shadow:0 2px 14px var(--orgg)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fi{display:flex;flex-direction:column;gap:6px}
+.fi label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx3)}
+.iw{position:relative}.sf{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--tx3);pointer-events:none}
+input[type=number]{width:100%;background:var(--c2);border:1.5px solid var(--b1);border-radius:13px;color:var(--tx);font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;padding:13px 48px 13px 16px;outline:none;transition:all .2s}
+input[type=number]:focus{border-color:var(--or);background:var(--c3);box-shadow:0 0 0 3px rgba(255,92,26,.1)}
+input[type=number]::placeholder{color:var(--tx3);font-size:17px;font-weight:500}
+.hide{display:none}.sg{display:grid}.sb{display:block}
+.og2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.og3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.og6{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.op input{display:none}.op label{display:flex;flex-direction:column;padding:15px;background:var(--c2);border:1.5px solid var(--b1);border-radius:14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.op label::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--org),transparent);opacity:0;transition:opacity .2s}
+.op input:checked+label{border-color:var(--or);box-shadow:0 0 0 1px var(--or),0 4px 20px var(--org)}.op input:checked+label::after{opacity:1}.op label:hover{border-color:var(--b2)}
+.oi{font-size:20px;margin-bottom:7px;position:relative;z-index:1}.ot{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--tx);position:relative;z-index:1}
+.os{font-size:11px;color:var(--tx2);margin-top:2px;position:relative;z-index:1}.op input:checked+label .ot{color:var(--or)}
+.gc-op .op label{align-items:center;text-align:center;padding:18px}.gc-op .oi{font-size:28px;margin-bottom:8px}.gc-op .ot{font-size:15px}
+.sbtn{width:100%;padding:18px;background:linear-gradient(135deg,var(--or),#df3f0e);border:none;border-radius:14px;font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800;color:#fff;cursor:pointer;transition:all .22s;box-shadow:0 4px 32px var(--orgg);margin-top:14px;position:relative;overflow:hidden}
+.sbtn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 55%)}.sbtn:hover{transform:translateY(-2px);box-shadow:0 8px 44px var(--orgg)}
+.rbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--c2);border:1.5px solid var(--b1);border-radius:14px;color:var(--tx2);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;margin-top:4px}
+.rbtn:hover{border-color:var(--or);color:var(--or);background:var(--org)}
+.footer{text-align:center;margin-top:60px;padding-top:20px;border-top:1px solid var(--b1);font-size:12px;color:var(--tx3)}.footer a{color:var(--or);text-decoration:none;font-weight:600}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.page{padding:28px 12px 80px}.logo-link h1{font-size:clamp(34px,13vw,54px) !important;letter-spacing:-2px !important}.card{padding:18px}.g2{grid-template-columns:1fr}.og6{grid-template-columns:1fr 1fr}.pills{flex-wrap:wrap}input[type=number]{font-size:19px;padding:11px 44px 11px 14px}.nav a{padding:8px 12px;font-size:11px}}
+.hero{overflow:hidden;margin-bottom:14px;box-shadow:0 36px 90px rgba(0,0,0,.55)}
+.hero-top{padding:32px;background:linear-gradient(135deg,rgba(255,92,26,.07),transparent 55%);border-bottom:1px solid var(--b1);display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.h-tag{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);margin-bottom:8px}
+.h-num{font-family:'Space Grotesk',sans-serif;font-size:clamp(58px,12vw,96px);font-weight:800;line-height:1;background:linear-gradient(135deg,#ff5c1a,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.h-unit{font-size:13px;color:var(--tx2);margin-top:4px}
+.h-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;background:var(--org);border:1px solid rgba(255,92,26,.22);color:var(--or);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.macs{display:grid;grid-template-columns:repeat(3,1fr)}
+.mc{padding:20px 14px;text-align:center;border-right:1px solid var(--b1);position:relative}
+.mc:last-child{border-right:none}
+.mc::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;height:3px;border-radius:0 0 3px 3px}
+.mp::before{background:var(--bl)}.mc2::before{background:var(--gr)}.mf::before{background:var(--ye)}
+.mn{font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:800;line-height:1;margin-top:8px}
+.mp .mn{color:var(--bl)}.mc2 .mn{color:var(--gr)}.mf .mn{color:var(--ye)}
+.mu{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px}
+.ml{font-size:10px;color:var(--tx2);font-weight:600;margin-top:6px;letter-spacing:2px;text-transform:uppercase}
+.macros-hd{padding:14px 24px;border-bottom:1px solid var(--b1);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3)}
+.gc{overflow:hidden;margin-bottom:14px;box-shadow:0 16px 48px rgba(0,0,0,.35)}
+.gc-hd{padding:14px 24px;border-bottom:1px solid var(--b1);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--tx3)}
+.gr{padding:15px 24px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:12px}
+.gr:last-child{border-bottom:none}
+.gr-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.gr-info{flex:1;min-width:0}.gr-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700}
+.gr-desc{font-size:11px;color:var(--tx2);margin-top:2px}
+.gr-right{text-align:right;flex-shrink:0}.gr-cal{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;line-height:1}
+.gr-unit{font-size:11px;color:var(--tx3);margin-top:2px}
+.bar-w{padding:0 24px 13px}.bar-t{height:3px;background:var(--c3);border-radius:3px;overflow:hidden}
+.bar-f{height:100%;border-radius:3px}
+.rs{overflow:hidden;margin-bottom:14px}
+.rs-hd{padding:15px 24px;border-bottom:1px solid var(--b1);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800}
+.rs-body{display:grid;grid-template-columns:repeat(3,1fr)}
+.rs-col{padding:18px 12px;text-align:center;border-right:1px solid var(--b1);position:relative}
+.rs-col:last-child{border-right:none}
+.rs-col::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.rs1::before{background:linear-gradient(90deg,var(--bl),transparent)}.rs2::before{background:linear-gradient(90deg,var(--gr),transparent)}.rs3::before{background:linear-gradient(90deg,var(--or),transparent)}
+.rs-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:7px}
+.rs-cal{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:800;line-height:1}
+.rs1 .rs-cal{color:var(--bl)}.rs2 .rs-cal{color:var(--gr)}.rs3 .rs-cal{color:var(--or)}
+.rs-u{font-size:10px;color:var(--tx3);text-transform:uppercase;margin-top:3px}
+.rs-d{font-size:12px;color:var(--tx2);font-weight:600;margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)}
+.stip{padding:18px 22px;margin-bottom:14px;display:flex;align-items:flex-start;gap:13px}
+.stip-i{font-size:24px;flex-shrink:0}.stip-t{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;margin-bottom:5px}
+.stip-b{font-size:13px;color:var(--tx2);line-height:1.65}.stip-b strong{color:var(--tx);font-weight:600}
+.green-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:linear-gradient(135deg,var(--gr),#00a86b);border:none;border-radius:14px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:10px;text-decoration:none;box-shadow:0 4px 24px var(--grg)}
+.green-btn:hover{transform:translateY(-2px)}
+@media(max-width:600px){
+  .macs{grid-template-columns:1fr}.mc{border-right:none;border-bottom:1px solid var(--b1)}.mc:last-child{border-bottom:none}
+  .hero-top{padding:20px;flex-direction:column;align-items:flex-start}.h-num{font-size:clamp(52px,18vw,76px) !important}
+  .gr{flex-wrap:wrap}.gr-right{width:100%;text-align:left}
+  .rs-body{grid-template-columns:1fr}.rs-col{border-right:none;border-bottom:1px solid var(--b1)}.rs-col:last-child{border-bottom:none}
+  .stip{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="bg-wrap">
+  <div class="orb o1" style="background:radial-gradient(circle,rgba(255,92,26,.09),transparent 70%)"></div>
+  <div class="orb o2" style="background:radial-gradient(circle,rgba(77,143,255,.07),transparent 70%)"></div>
+  <div class="bg-grid"></div>
+</div>
+<div class="page">
+  <header class="hdr">
+    <a href="/" class="logo-link"><h1><span class="logo-w">My Fit</span> <span class="fire">Calorie</span></h1></a>
+    <p>Find your perfect daily calories, track your macros & reach your fitness goals</p>
+  </header>
+  <div class="nav"><a href="/" class="nav a">🏠 Home</a><a href="/calculator" class="nav a on">🔥 Calories</a><a href="/bodytype" class="nav a">💪 Body Type</a><a href="/mealplan" class="nav a">🥗 Meal Plan</a><a href="/feedback" class="nav a">💬 Feedback</a></div>
+  {% if error %}<div class="err">⚠ {{ error }}</div>{% endif %}
+  {% if result %}
+  <div style="animation:up .6s both">
+    <div class="glass hero">
+      <div class="hero-top">
+        <div>
+          <div class="h-tag">Daily Maintenance Calories</div>
+          <div class="h-num">{{ result.maint }}</div>
+          <div class="h-unit">kcal per day</div>
+        </div>
+        <div>
+          {% if result.goal == 1 %}<div class="h-badge">⚖️ Maintain</div>{% endif %}
+          {% if result.goal == 2 %}<div class="h-badge">🔥 Lose Weight</div>{% endif %}
+          {% if result.goal == 3 %}<div class="h-badge">💪 Gain Weight</div>{% endif %}
+        </div>
+      </div>
+    </div>
+    {% if result.goal == 2 %}
+    <div class="glass gc">
+      <div class="gc-hd">⬇ Weight Loss Options</div>
+      <div class="gr"><div class="gr-ico" style="background:var(--yeg)">😊</div><div class="gr-info"><div class="gr-name" style="color:var(--ye)">Mild Weight Loss</div><div class="gr-desc">Body recomposition — slow and sustainable</div></div><div class="gr-right"><div class="gr-cal" style="color:var(--ye)">{{ result.mild }}</div><div class="gr-unit">kcal / day</div></div></div>
+      <div class="bar-w"><div class="bar-t"><div class="bar-f" style="width:89%;background:var(--ye)"></div></div></div>
+      <div class="gr"><div class="gr-ico" style="background:var(--org)">🔥</div><div class="gr-info"><div class="gr-name" style="color:var(--or)">Weight Loss</div><div class="gr-desc">Steady fat loss — recommended approach</div></div><div class="gr-right"><div class="gr-cal" style="color:var(--or)">{{ result.loss }}</div><div class="gr-unit">kcal / day</div></div></div>
+      <div class="bar-w"><div class="bar-t"><div class="bar-f" style="width:79%;background:var(--or)"></div></div></div>
+      <div class="gr"><div class="gr-ico" style="background:var(--reg)">⚡</div><div class="gr-info"><div class="gr-name" style="color:var(--re)">Extreme Weight Loss</div><div class="gr-desc">Aggressive cut — consult a doctor first</div></div><div class="gr-right"><div class="gr-cal" style="color:var(--re)">{{ result.extreme }}</div><div class="gr-unit">kcal / day</div></div></div>
+      <div class="bar-w"><div class="bar-t"><div class="bar-f" style="width:58%;background:var(--re)"></div></div></div>
+    </div>
+    {% endif %}
+    {% if result.goal == 3 %}
+    <div class="glass gc">
+      <div class="gc-hd">⬆ Weight Gain Options</div>
+      <div class="gr"><div class="gr-ico" style="background:var(--blg)">🏃</div><div class="gr-info"><div class="gr-name" style="color:var(--bl)">Lean Bulk</div><div class="gr-desc">Slow and clean — minimal fat gain</div></div><div class="gr-right"><div class="gr-cal" style="color:var(--bl)">{{ result.lean }}</div><div class="gr-unit">kcal / day</div></div></div>
+      <div class="bar-w"><div class="bar-t"><div class="bar-f" style="width:100%;background:var(--bl)"></div></div></div>
+      <div class="gr"><div class="gr-ico" style="background:var(--grg)">💪</div><div class="gr-info"><div class="gr-name" style="color:var(--gr)">Moderate Bulk</div><div class="gr-desc">Balanced muscle and strength gains</div></div><div class="gr-right"><div class="gr-cal" style="color:var(--gr)">{{ result.moderate }}</div><div class="gr-unit">kcal / day</div></div></div>
+      <div class="bar-w"><div class="bar-t"><div class="bar-f" style="width:100%;background:var(--gr)"></div></div></div>
+      <div class="gr"><div class="gr-ico" style="background:var(--pug)">🚀</div><div class="gr-info"><div class="gr-name" style="color:var(--pu)">Aggressive Bulk</div><div class="gr-desc">Maximum muscle — expect some fat gain</div></div><div class="gr-right"><div class="gr-cal" style="color:var(--pu)">{{ result.aggressive }}</div><div class="gr-unit">kcal / day</div></div></div>
+      <div class="bar-w"><div class="bar-t"><div class="bar-f" style="width:100%;background:var(--pu)"></div></div></div>
+    </div>
+    {% endif %}
+    <div class="glass hero" style="margin-bottom:14px">
+      <div class="macros-hd">🥩 Daily Macros</div>
+      <div class="macs">
+        <div class="mc mp"><div class="ml">Protein</div><div class="mn">{{ result.protein }}</div><div class="mu">grams / day</div></div>
+        <div class="mc mc2"><div class="ml">Carbs</div><div class="mn">{{ result.carbs }}</div><div class="mu">grams / day</div></div>
+        <div class="mc mf"><div class="ml">Fat</div><div class="mn">{{ result.fat }}</div><div class="mu">grams / day</div></div>
+      </div>
+    </div>
+    <div class="glass rs">
+      <div class="rs-hd">🚶 Calories You Can Burn by Walking</div>
+      <div class="rs-body">
+        <div class="rs-col rs1"><div class="rs-lbl">5,000 Steps</div><div class="rs-cal">~200</div><div class="rs-u">kcal burned</div><div class="rs-d">≈ 3.5 km</div></div>
+        <div class="rs-col rs2"><div class="rs-lbl">8,000 Steps</div><div class="rs-cal">~320</div><div class="rs-u">kcal burned</div><div class="rs-d">≈ 5.6 km</div></div>
+        <div class="rs-col rs3"><div class="rs-lbl">10,000 Steps</div><div class="rs-cal">~400</div><div class="rs-u">kcal burned</div><div class="rs-d">≈ 7 km</div></div>
+      </div>
+    </div>
+    <div class="glass stip">
+      <div class="stip-i">💡</div>
+      <div><div class="stip-t">How to Use Your Numbers</div><div class="stip-b">Your maintenance calories are the starting point. To lose weight, eat <strong>less than this number</strong>. To gain weight, eat <strong>more</strong>. Track weight weekly — not daily — since water weight causes big daily swings.</div></div>
+    </div>
+    <a href="/mealplan" class="green-btn">🥗 Get My Meal Plan →</a>
+    <a href="/calculator" class="rbtn">← Calculate Again</a>
+  </div>
+  {% else %}
+  <div class="glass card">
+    <form method="POST">
+      <div class="blk">
+        <span class="sec-lbl">Weight</span>
+        <div class="pills">
+          <div class="pi"><input type="radio" name="weight_unit" id="wkg" value="1" checked onchange="wlbl()"/><label for="wkg">Kilograms (kg)</label></div>
+          <div class="pi"><input type="radio" name="weight_unit" id="wlb" value="2" onchange="wlbl()"/><label for="wlb">Pounds (lb)</label></div>
+        </div>
+        <div class="fi"><label id="wl">Weight (kg)</label><div class="iw"><input type="number" name="weight" id="winput" inputmode="decimal" required placeholder="e.g. 70"/><span class="sf" id="ws">kg</span></div></div>
+      </div>
+      <div class="blk">
+        <span class="sec-lbl">Height</span>
+        <div class="pills">
+          <div class="pi"><input type="radio" name="height_unit" id="hft" value="1" checked onchange="htgl()"/><label for="hft">Feet & Inches</label></div>
+          <div class="pi"><input type="radio" name="height_unit" id="hcm" value="2" onchange="htgl()"/><label for="hcm">Centimeters</label></div>
+        </div>
+        <div id="hfi" class="g2 sg">
+          <div class="fi"><label>Feet</label><div class="iw"><input type="number" name="feet" id="ftin" placeholder="5"/><span class="sf">ft</span></div></div>
+          <div class="fi"><label>Inches</label><div class="iw"><input type="number" name="inch" placeholder="8"/><span class="sf">in</span></div></div>
+        </div>
+        <div id="hcmi" class="hide">
+          <div class="fi"><label>Height (cm)</label><div class="iw"><input type="number" name="cm_h" id="cmin" inputmode="decimal" placeholder="175"/><span class="sf">cm</span></div></div>
+        </div>
+      </div>
+      <div class="blk">
+        <span class="sec-lbl">Age</span>
+        <div class="fi"><label>Age</label><div class="iw"><input type="number" name="age" required placeholder="25"/><span class="sf">yrs</span></div></div>
+      </div>
+      <div class="blk">
+        <span class="sec-lbl">Gender</span>
+        <div class="og2 gc-op">
+          <div class="op"><input type="radio" name="gender" id="gm" value="male" required/><label for="gm"><span class="oi">♂</span><span class="ot">Male</span></label></div>
+          <div class="op"><input type="radio" name="gender" id="gf" value="female"/><label for="gf"><span class="oi">♀</span><span class="ot">Female</span></label></div>
+        </div>
+      </div>
+      <div class="blk">
+        <span class="sec-lbl">Activity Level</span>
+        <div class="og6">
+          <div class="op"><input type="radio" name="activity" id="a1" value="1" required/><label for="a1"><span class="oi">🛋️</span><span class="ot">Sedentary</span><span class="os">No exercise</span></label></div>
+          <div class="op"><input type="radio" name="activity" id="a2" value="2"/><label for="a2"><span class="oi">🚶</span><span class="ot">Light</span><span class="os">1–3 days/wk</span></label></div>
+          <div class="op"><input type="radio" name="activity" id="a3" value="3"/><label for="a3"><span class="oi">🏃</span><span class="ot">Moderate</span><span class="os">4–5 days/wk</span></label></div>
+          <div class="op"><input type="radio" name="activity" id="a4" value="4"/><label for="a4"><span class="oi">🏋️</span><span class="ot">Active</span><span class="os">Daily exercise</span></label></div>
+          <div class="op"><input type="radio" name="activity" id="a5" value="5"/><label for="a5"><span class="oi">⚡</span><span class="ot">Very Active</span><span class="os">Intense 6–7d</span></label></div>
+          <div class="op"><input type="radio" name="activity" id="a6" value="6"/><label for="a6"><span class="oi">🔥</span><span class="ot">Extreme</span><span class="os">Hard labor</span></label></div>
+        </div>
+      </div>
+      <div class="blk">
+        <span class="sec-lbl">Your Goal</span>
+        <div class="og3 gc-op">
+          <div class="op"><input type="radio" name="goal" id="g1" value="1" required/><label for="g1"><span class="oi">⚖️</span><span class="ot">Maintain</span></label></div>
+          <div class="op"><input type="radio" name="goal" id="g2" value="2"/><label for="g2"><span class="oi">🔥</span><span class="ot">Lose Weight</span></label></div>
+          <div class="op"><input type="radio" name="goal" id="g3" value="3"/><label for="g3"><span class="oi">💪</span><span class="ot">Gain Weight</span></label></div>
+        </div>
+      </div>
+      <button type="submit" class="sbtn">Calculate My Calories 🔥</button>
+    </form>
+  </div>
+  {% endif %}
+  <div class="footer">My Fit Calorie 🔥 · <a href="/">All Tools</a> · <a href="/feedback">Feedback</a></div>
+</div>
+<script>
+function wlbl(){var kg=document.getElementById('wkg').checked;document.getElementById('wl').textContent=kg?'Weight (kg)':'Weight (lb)';document.getElementById('ws').textContent=kg?'kg':'lb';var w=document.getElementById('winput');w.placeholder=kg?'e.g. 70':'e.g. 154';w.value='';}
+function htgl(){var ft=document.getElementById('hft').checked;document.getElementById('hfi').className=ft?'g2 sg':'hide';document.getElementById('hcmi').className=ft?'hide':'sb';document.getElementById('ftin').required=ft;var ci=document.getElementById('cmin');if(ci)ci.required=!ft;}
+htgl();wlbl();
+</script>
+</body>
+</html>
