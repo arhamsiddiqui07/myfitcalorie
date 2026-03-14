@@ -268,7 +268,7 @@ def make_meal_plan(kcal, goal, total_meals=4):
             "icon": icon,
             "name": name,
             "time": time,
-            "items": scaled,
+            "foods": scaled,
             "total_cal": sum(i["cal"] for i in scaled)
         })
 
