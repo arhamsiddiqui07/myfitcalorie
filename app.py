@@ -260,6 +260,74 @@ def feedback():
 def feedback_thanks():
     return render_template('feedback.html', sent=True, feedbacks=load_feedbacks())
 
+
+def calc_ffmi(weight_kg, height_cm, body_fat_pct):
+    height_m = height_cm / 100
+    fat_mass = weight_kg * (body_fat_pct / 100)
+    lean_mass = weight_kg - fat_mass
+    ffmi = lean_mass / (height_m ** 2)
+    # Normalized FFMI (adjusted to 1.8m height)
+    ffmi_norm = ffmi + 6.1 * (1.8 - height_m)
+
+    if ffmi_norm < 17:
+        level = 'Beginner'
+        desc = 'Low muscle mass. Great time to start strength training!'
+        cls = 're'
+    elif ffmi_norm < 20:
+        level = 'Average Fitness'
+        desc = 'Average muscle mass. Consistent training will help you progress.'
+        cls = 'ye'
+    elif ffmi_norm < 22:
+        level = 'Good Physique'
+        desc = 'Good muscular development. You are visibly athletic.'
+        cls = 'bl'
+    elif ffmi_norm < 24:
+        level = 'Very Muscular'
+        desc = 'Very muscular — approaching natural limits. Excellent work!'
+        cls = 'gr'
+    else:
+        level = 'Elite / Near Natural Limit'
+        desc = 'Elite level physique. At or beyond the natural genetic ceiling for most people.'
+        cls = 'or'
+
+    return {
+        'weight_kg': round(weight_kg, 1),
+        'height_cm': round(height_cm, 1),
+        'bf_pct': body_fat_pct,
+        'lean_mass': round(lean_mass, 1),
+        'fat_mass': round(fat_mass, 1),
+        'ffmi': round(ffmi, 1),
+        'ffmi_norm': round(ffmi_norm, 1),
+        'level': level,
+        'desc': desc,
+        'cls': cls,
+    }
+
+
+@app.route('/ffmi', methods=['GET', 'POST'])
+def ffmi():
+    result = error = None
+    if request.method == 'POST':
+        try:
+            wu = int(request.form['weight_unit'])
+            w = float(request.form['weight'])
+            w_kg = w * 0.453592 if wu == 2 else w
+            hu = int(request.form['height_unit'])
+            if hu == 1:
+                feet = float(request.form.get('feet') or 0)
+                inch = float(request.form.get('inch') or 0)
+                cm = feet * 30.48 + inch * 2.54
+            else:
+                cm = float(request.form['cm_h'])
+            bf = float(request.form['body_fat'])
+            if w_kg <= 0 or cm <= 0 or bf <= 0 or bf >= 60:
+                error = 'Please enter valid numbers. Body fat must be between 1–60%.'
+            else:
+                result = calc_ffmi(w_kg, cm, bf)
+        except Exception:
+            error = 'Please fill in all fields correctly.'
+    return render_template('ffmi.html', result=result, error=error)
+
 @app.route('/sitemap.xml')
 def sitemap():
     xml = '''<?xml version="1.0" encoding="UTF-8"?>
@@ -268,6 +336,7 @@ def sitemap():
   <url><loc>https://myfitcalorie.vercel.app/calculator</loc><priority>0.9</priority></url>
   <url><loc>https://myfitcalorie.vercel.app/bodytype</loc><priority>0.9</priority></url>
   <url><loc>https://myfitcalorie.vercel.app/mealplan</loc><priority>0.9</priority></url>
+  <url><loc>https://myfitcalorie.vercel.app/ffmi</loc><priority>0.9</priority></url>
 </urlset>'''
     return Response(xml, mimetype='application/xml')
 
