@@ -328,6 +328,134 @@ def ffmi():
             error = 'Please fill in all fields correctly.'
     return render_template('ffmi.html', result=result, error=error)
 
+
+# ─── Water Intake ──────────────────────────────────────────
+def calc_water(weight_kg, activity, climate):
+    base = weight_kg * 0.033  # liters
+    act_add = {1: 0, 2: 0.35, 3: 0.5, 4: 0.7, 5: 1.0}
+    climate_add = {1: 0, 2: 0.35, 3: 0.6}
+    total = base + act_add.get(activity, 0) + climate_add.get(climate, 0)
+    glasses = round(total / 0.25)
+    return {
+        'total': round(total, 1),
+        'glasses': glasses,
+        'base': round(base, 1),
+        'weight_kg': round(weight_kg, 1),
+    }
+
+# ─── One Rep Max ───────────────────────────────────────────
+def calc_1rm(weight, reps):
+    # Epley formula
+    if reps == 1:
+        orm = weight
+    else:
+        orm = weight * (1 + reps / 30)
+    pcts = [
+        (100, orm),
+        (95,  orm * 0.95),
+        (90,  orm * 0.90),
+        (85,  orm * 0.85),
+        (80,  orm * 0.80),
+        (75,  orm * 0.75),
+        (70,  orm * 0.70),
+    ]
+    return {
+        'orm': round(orm, 1),
+        'weight': weight,
+        'reps': reps,
+        'pcts': [(p, round(v, 1)) for p, v in pcts],
+    }
+
+# ─── Workout Calorie Burn ──────────────────────────────────
+EXERCISES = {
+    'running':       ('🏃 Running (moderate)',        8.0),
+    'running_fast':  ('🏃 Running (fast)',            11.0),
+    'cycling':       ('🚴 Cycling (moderate)',         6.0),
+    'cycling_fast':  ('🚴 Cycling (fast)',             10.0),
+    'swimming':      ('🏊 Swimming',                   7.0),
+    'weightlifting': ('🏋️ Weight Training',            4.0),
+    'hiit':          ('⚡ HIIT',                        9.0),
+    'walking':       ('🚶 Walking',                    3.5),
+    'yoga':          ('🧘 Yoga',                       2.5),
+    'boxing':        ('🥊 Boxing',                     8.5),
+    'football':      ('⚽ Football / Soccer',          7.0),
+    'basketball':    ('🏀 Basketball',                 6.5),
+    'skipping':      ('⏭️ Jump Rope',                  10.0),
+    'elliptical':    ('🔄 Elliptical',                 5.5),
+    'rowing':        ('🚣 Rowing',                     7.0),
+}
+
+def calc_workout(exercise_key, weight_kg, duration_min):
+    name, met = EXERCISES.get(exercise_key, ('Unknown', 5.0))
+    # Calories = MET * weight_kg * duration_hr
+    kcal = round(met * weight_kg * (duration_min / 60))
+    return {
+        'exercise': name,
+        'weight_kg': round(weight_kg, 1),
+        'duration': duration_min,
+        'kcal': kcal,
+        'kcal_per_min': round(kcal / duration_min, 1),
+    }
+
+EXERCISES_LIST = [(k, v[0]) for k, v in EXERCISES.items()]
+
+@app.route('/water', methods=['GET', 'POST'])
+def water():
+    result = error = None
+    if request.method == 'POST':
+        try:
+            wu = int(request.form['weight_unit'])
+            w = float(request.form['weight'])
+            w_kg = w * 0.453592 if wu == 2 else w
+            activity = int(request.form['activity'])
+            climate = int(request.form['climate'])
+            if w_kg <= 0:
+                error = 'Please enter a valid weight.'
+            else:
+                result = calc_water(w_kg, activity, climate)
+        except Exception:
+            error = 'Please fill in all fields correctly.'
+    return render_template('water.html', result=result, error=error)
+
+@app.route('/orm', methods=['GET', 'POST'])
+def orm():
+    result = error = None
+    if request.method == 'POST':
+        try:
+            wu = int(request.form['weight_unit'])
+            w = float(request.form['weight'])
+            w_kg = w * 0.453592 if wu == 2 else w
+            reps = int(request.form['reps'])
+            exercise = request.form.get('exercise', 'Bench Press')
+            if w_kg <= 0 or reps <= 0 or reps > 30:
+                error = 'Please enter valid weight and reps (1–30).'
+            else:
+                result = calc_1rm(w_kg, reps)
+                result['exercise_name'] = exercise
+        except Exception:
+            error = 'Please fill in all fields correctly.'
+    return render_template('orm.html', result=result, error=error)
+
+@app.route('/workout', methods=['GET', 'POST'])
+def workout():
+    result = error = None
+    if request.method == 'POST':
+        try:
+            wu = int(request.form['weight_unit'])
+            w = float(request.form['weight'])
+            w_kg = w * 0.453592 if wu == 2 else w
+            exercise = request.form['exercise']
+            duration = int(request.form['duration'])
+            if w_kg <= 0 or duration <= 0 or duration > 300:
+                error = 'Please enter valid values.'
+            elif exercise not in EXERCISES:
+                error = 'Please select an exercise.'
+            else:
+                result = calc_workout(exercise, w_kg, duration)
+        except Exception:
+            error = 'Please fill in all fields correctly.'
+    return render_template('workout.html', result=result, error=error, exercises=EXERCISES_LIST)
+
 @app.route('/sitemap.xml')
 def sitemap():
     xml = '''<?xml version="1.0" encoding="UTF-8"?>
